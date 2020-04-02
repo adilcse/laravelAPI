@@ -14,3 +14,5 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+$router->get('getCatagory','AllCatagory@getAll');
+$router->get('getSeller','SellerController@getAll');

@@ -15,6 +15,7 @@ class ExampleMiddleware
      */
     public function handle($request, Closure $next)
     {
+        echo $request;
         return $next($request);
     }
 }
