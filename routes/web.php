@@ -14,5 +14,17 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
-$router->get('getCatagory','AllCatagory@getAll');
-$router->get('getSeller','SellerController@getAll');
+Route::group(['middleware' => ['cors']], function () {
+    Route::get('getCatagory','AllCatagory@getAll');
+
+
+    Route::group(['prefix' => 'user','middleware'=>'auth'], function () {
+        Route::get('login/{uid}','UserController@getByUid');
+        Route::post('userRegister','UserController@store');
+    });
+    Route::group(['prefix' => 'seller'], function () {
+        Route::get('getSeller','SellerController@getAll');
+        Route::post('addUser','UserController@store');
+    });
+});
+

@@ -25,7 +25,7 @@ $app = new Laravel\Lumen\Application(
 
  $app->withFacades();
 
-// $app->withEloquent();
+ $app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -76,9 +76,10 @@ $app->configure('app');
 //     App\Http\Middleware\ExampleMiddleware::class
 // ]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+    'cors'=>  App\Http\Middleware\HandleCors::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -92,7 +93,9 @@ $app->configure('app');
 */
 
 // $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
+    $app->register(Kreait\Laravel\Firebase\ServiceProvider::class);
+    $app->register(App\Providers\AuthServiceProvider::class);
+    $app->register(App\Providers\GenerateToken::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*
@@ -114,4 +117,5 @@ $app->router->group([
 
 //lumen gnerator added
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+
 return $app;

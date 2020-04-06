@@ -14,7 +14,6 @@ class AllCatagory extends Controller
     {   $content=  Catagory::getAllCatagory();
         $status=200;
        return response($content, $status)->header('Access-Control-Allow-Origin','http://localhost:3000');
-     
     }
 
     //

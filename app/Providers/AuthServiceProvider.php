@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Firebase\Auth\Token\Exception\InvalidToken;
 
 class AuthServiceProvider extends ServiceProvider
 {
+   private $auth ;
     /**
      * Register any application services.
      *
@@ -15,7 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->auth= app('firebase.auth');
     }
 
     /**
@@ -31,9 +33,25 @@ class AuthServiceProvider extends ServiceProvider
         // the User instance via an API token or any other method necessary.
 
         $this->app['auth']->viaRequest('api', function ($request) {
-            if ($request->input('api_token')) {
-                return User::where('api_token', $request->input('api_token'))->first();
-            }
+            $token=$request->input('api_token');
+            if ($token) { 
+                $verifiedIdToken=null;
+                try {
+                    $verifiedIdToken = $this->auth->verifyIdToken($token);
+                    $uid = $verifiedIdToken->getClaim('sub');
+                    if($request->is('user/userRegister') && $uid==$request->input('uid')){
+                        return true;
+                    }
+                    return USER::where('uid',$uid)->first();
+                } catch (\InvalidArgumentException $e) {
+                 //   echo 'The token could not be parsed: '.$e->getMessage();
+                    return null;
+                } catch (InvalidToken $e) {
+                 //   echo 'The token is invalid: '.$e->getMessage();
+                    return null;
+                }
+              
+           }
         });
     }
 }
