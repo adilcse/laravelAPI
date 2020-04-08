@@ -39,9 +39,16 @@ class AuthServiceProvider extends ServiceProvider
                 try {
                     $verifiedIdToken = $this->auth->verifyIdToken($token);
                     $uid = $verifiedIdToken->getClaim('sub');
-                    if($request->is('user/userRegister') && $uid==$request->input('uid')){
-                        return true;
+                 
+                    if($request->is('user/userRegister')){
+                        echo 'register';
+                        $reqData=json_decode($request->input('json'));
+                        if($uid==$reqData->uid)
+                            return true;
+                        else
+                            return null;
                     }
+                   // return $uid;
                     return USER::where('uid',$uid)->first();
                 } catch (\InvalidArgumentException $e) {
                  //   echo 'The token could not be parsed: '.$e->getMessage();

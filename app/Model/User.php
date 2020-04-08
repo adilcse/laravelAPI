@@ -10,12 +10,11 @@ class User extends Model
         $value=DB::table('users')->orderBy('id', 'asc')->get();
         return $value;
       }
-    public static function store($email,$uid,$name){
-      return DB::table('users')->insertGetId([
-        'email'=>$email,
-        'uid' => $uid,
-        'name'=>$name,
-      ]);
+      /**
+       * stores new user data in database
+       */
+    public static function store($userData){
+      return DB::table('users')->insert($userData);
       
     }  
     public static function getByUid($uid)
@@ -51,5 +50,7 @@ class User extends Model
       }
 
     }
+
+
 }
 

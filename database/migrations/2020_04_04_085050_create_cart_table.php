@@ -18,9 +18,10 @@ class CreateCartTable extends Migration
             $table->bigInteger('item_id')->unsigned();
             $table->smallInteger('quantity')->default(1);
             $table->bigInteger('user_id')->unsigned();
-            $table->timestamps();
+            $table->timestamps()->useCurrent();
         });
         Schema::table('carts', function (Blueprint $table) {
+            $table->index(['user_id','item_id']);
             $table->foreign('item_id')->references('id')->on('products');
             $table->foreign('user_id')->references('id')->on('users');
         });

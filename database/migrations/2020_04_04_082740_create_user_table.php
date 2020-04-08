@@ -17,13 +17,12 @@ class CreateUserTable extends Migration
             $table->bigIncrements('id');
             $table->string('email');
             $table->string('name', 100);
-            $table->string('uid');
             $table->bigInteger('address_id')->unsigned()->nullable();
             $table->string('uid')->unique();
-            $table->timestamps();
+            $table->timestamps()->useCurrent();;
         });
         Schema::table('users', function (Blueprint $table) {
-            $table->unique('uid');
+            $table->index('uid');
             $table->foreign('address_id')->references('id')->on('address');
         });
     }

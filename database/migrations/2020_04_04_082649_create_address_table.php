@@ -25,7 +25,7 @@ class CreateAddressTable extends Migration
             $table->double('lat',20,16)->nullable();
             $table->double('lng',20,16)->nullable();
             $table->enum('address_type',array('USER','SELLER'))->default('USER');
-            $table->timestamps();
+            $table->timestamps()->useCurrent();;
         });
         Schema::table('address', function (Blueprint $table) {
             $table->foreign('state_id')->references('id')->on('indian_states');

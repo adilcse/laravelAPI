@@ -15,6 +15,7 @@ class CreateProductTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->$table->bigInteger('seller_id')->unsigned();
             $table->string('name');
             $table->longText('description');
             $table->string('image');
@@ -22,10 +23,12 @@ class CreateProductTable extends Migration
             $table->integer('discount')->default(0);
             $table->integer('stock')->default(0);
             $table->integer('catagory_id')->unsigned();
-            $table->timestamps();
+            $table->timestamps()->useCurrent();;
         });
         Schema::table('products', function (Blueprint $table) {
+            $table->index('seller_id');
             $table->foreign('catagory_id')->references('id')->on('catagories');
+            $table->foreign('seller_id')->references('id')->on('sellers');
         });
     }
 

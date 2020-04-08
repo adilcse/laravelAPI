@@ -5,16 +5,18 @@ use Illuminate\Http\Request;
 use App\Model\User;
 use App\Providers\GenerateToken;
 use Illuminate\Database\QueryException;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
+
 class UserController extends Controller
 {
+
     public function store(Request $request)
     {
-        $email=$request->input('email');
-        $uid=$request->input('uid');
-        $name=$request->input('name');
+        $reqData=(array)json_decode($request->input('json'));
+    
         try{
-            $id=User::store($email,$uid,$name);
+            $id=User::store($reqData);
             if($id){
                 $status=200;
                 $content=['id'=>$id];
@@ -29,28 +31,37 @@ class UserController extends Controller
         }catch(QueryException $ex){ 
             $error=['type'=>'user not registered'];
             $status= 422;
-            return response($error, $status);
+            //var_dump($ex);
+            return response($ex, $status);
           }
        
     }
-    public function getById($id)
+    public function getByUid($id)
     {
-        $content= User::getById($id);
-        $status=200;
-        return response($content, $status);
+            $userObj = Auth::user();
+            $user=['name'=>$userObj->name,
+                    'email'=>$userObj->email,
+                    'userType'=>$userObj->user_type,
+                    'uid'=>$userObj->uid,
+                    'address_id'=>$userObj->address_id,
+                    'id'=>$userObj->id
+                 ];
+                 $content=[];
+                 $status=200;
+                 try{
+             $userData = AddressController::getUserAddress($user); 
+            $userCart = CartController::getUserCart($user['id']);
+            $content=array_merge($userData,$userCart);
+                 }
+                 catch(Exception $e){
+                    $content=['error'=>$e];
+                    $status=403;
+                 }
+                 return response($content,$status);
+        
     }
-    public function getByUid($uid)
-    {
-        $content= User::getByUid($uid);
-       // $content=$id;
-        $status=200;
-        if($content['error'])
-            $status=403;
-        else{
-            unset($content['error']);
-        }
-        return response($content, $status);
-    }
+
+  
 
 
 }
