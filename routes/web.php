@@ -21,14 +21,16 @@ Route::group(['middleware' => ['cors']], function () {
         Route::get('login/{uid}','UserController@getByUid');
         Route::post('userRegister','UserController@store');
         Route::post('addToCart','CartController@addToCart');
+        Route::post('placeOrder','OrderController@store');
 
         Route::get('removeFromCart/{id}/delete','CartController@removeFromCart');
 
         Route::post('updateCart','CartController@updateCart'); 
     });
-    Route::group(['prefix' => 'seller'], function () {
+    Route::group(['prefix' => 'seller','middleware'=>'auth'], function () {
         Route::get('getSeller','SellerController@getAll');
-        Route::post('addUser','UserController@store');
+       
+        Route::post('register','SellerController@register');
     });
 });
 

@@ -15,6 +15,7 @@ class CreateStatesTable extends Migration
     {
         Schema::create('indian_states', function (Blueprint $table) {
             $table->id();
+            $table->string('state_id');
             $table->string('name');
         });
     }

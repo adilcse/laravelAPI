@@ -18,9 +18,11 @@ class CreateSellerTable extends Migration
             $table->string('name');
             $table->string('uid');
             $table->string('email');
+            $table->string('number');
             $table->enum('current_status',array('PENDING','ACTIVE','BLOCKED'))->DEFAULT('PENDING');
             $table->bigInteger('address_id')->unsigned();
-            $table->timestamps()->useCurrent();;
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
         Schema::table('sellers', function (Blueprint $table) {
             $table->index('uid');

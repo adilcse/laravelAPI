@@ -17,7 +17,7 @@ class CreateOrderTable extends Migration
             $table->id();
             $table->bigInteger('seller_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
-            $table->enum('ststus',array('ACCEPTED','OUT_FOR_DELIVERY','PENDING','CANCELLED','DELIVERED'))->default('PENDING');
+            $table->enum('status',array('ACCEPTED','OUT_FOR_DELIVERY','PENDING','CANCELLED','DELIVERED'))->default('PENDING');
             $table->enum('payment_mode',array('COD','UPI','DEBIT_CARD','CREDIT_CARD','NET_BANKING','WALLET'));
             $table->integer('total_amount')->unsigned();
             $table->integer('refund_amount')->unsigned()->default(0);
@@ -25,7 +25,8 @@ class CreateOrderTable extends Migration
             $table->smallInteger('rejected_items')->unsigned()->default(0);
             $table->timestamp('delivered_at')->nullable();
             $table->bigInteger('address_id')->unsigned();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
         Schema::table('orders', function (Blueprint $table) {
             $table->foreign('seller_id')->references('id')->on('sellers');

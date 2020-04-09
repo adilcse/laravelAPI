@@ -41,7 +41,7 @@ class UserController extends Controller
             $userObj = Auth::user();
             $user=['name'=>$userObj->name,
                     'email'=>$userObj->email,
-                    'userType'=>$userObj->user_type,
+                    'user_type'=>$userObj->user_type,
                     'uid'=>$userObj->uid,
                     'address_id'=>$userObj->address_id,
                     'id'=>$userObj->id

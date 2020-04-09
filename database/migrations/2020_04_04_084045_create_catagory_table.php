@@ -17,7 +17,8 @@ class CreateCatagoryTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('image');  
-            $table->timestamps()->useCurrent();;
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 

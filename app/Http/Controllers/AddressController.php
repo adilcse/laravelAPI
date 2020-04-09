@@ -26,6 +26,18 @@ class AddressController extends Controller
        return $user;
     }   
     }
+    public static function getInsertId($address,$type)
+    {
+      return Address::insertGetId([
+           'city'=>array_key_exists('city',$address)?$address['city']:null,
+           'state_id'=>1,
+           'landmark'=>array_key_exists('landmark',$address)?$address['landmark']:null,
+           'locality'=>array_key_exists('locality',$address)?$address['locality']:null,
+           'pin'=>array_key_exists('pin',$address)?$address['pin']:null,
+           'lat'=>array_key_exists('lat',$address)?$address['lat']:null,
+           'lng'=>array_key_exists('lng',$address)?$address['lng']:null
+       ]);
+    }
 
    
 }

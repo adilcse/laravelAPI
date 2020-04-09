@@ -18,6 +18,7 @@ class CreateAddressTable extends Migration
             $table->string('name')->nullable();
             $table->string('number',10)->nullable();
             $table->string('city')->nullable();
+            $table->string('fornatted_address')->nullable();
             $table->string('landmark')->nullable();
             $table->string('locality')->nullable();
             $table->string('pin')->nullable();
@@ -25,7 +26,8 @@ class CreateAddressTable extends Migration
             $table->double('lat',20,16)->nullable();
             $table->double('lng',20,16)->nullable();
             $table->enum('address_type',array('USER','SELLER'))->default('USER');
-            $table->timestamps()->useCurrent();;
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
         Schema::table('address', function (Blueprint $table) {
             $table->foreign('state_id')->references('id')->on('indian_states');

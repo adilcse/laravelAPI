@@ -18,6 +18,7 @@ class Cart extends Model
                             'products.image',
                             'products.price',
                             'products.discount',
+                            'products.seller_id',
                             'products.stock')
                     ->join('products','carts.item_id','=','products.id')
                     ->where('carts.user_id',$id)->get();

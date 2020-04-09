@@ -25,7 +25,35 @@ class SellerController extends Controller
             $status=200;
            return response(['sellers'=>$content,'products'=>$products], $status);
          
-        }
+		}	
+		public function register(Request $request)
+		{
+			$reqData=(array)json_decode($request->input('json'));
+			$address=$reqData['address'];
+			$result=[];
+			$code=200;
+			try{
+				$addressId=AddressController::getInsertId((array)$address,'SELLER');
+				$content=Seller::insert([
+					'name'=>$reqData['name'],
+					'uid'=>$reqData['uid'],
+					'email'=>$reqData['email'],
+					'number'=>$reqData['mobile'],
+					'current_status'=>$reqData['current_status'],
+					'address_id'=>$addressId
+				]);
+				$result=['status'=>$content];
+				$code=200;
+
+			}
+			catch(Exception $e){
+				$result=['error'=>$e];
+				$code=403;
+			}
+			return response($result,$code);
+			
+
+		}
 
     
 }

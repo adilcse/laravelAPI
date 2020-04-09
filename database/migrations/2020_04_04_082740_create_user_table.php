@@ -19,7 +19,8 @@ class CreateUserTable extends Migration
             $table->string('name', 100);
             $table->bigInteger('address_id')->unsigned()->nullable();
             $table->string('uid')->unique();
-            $table->timestamps()->useCurrent();;
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
         Schema::table('users', function (Blueprint $table) {
             $table->index('uid');
