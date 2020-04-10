@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\User;
-use App\Providers\GenerateToken;
 use Illuminate\Database\QueryException;
 use App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;

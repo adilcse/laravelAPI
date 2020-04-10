@@ -15,7 +15,7 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 Route::group(['middleware' => ['cors']], function () {
-    Route::get('getCatagory','AllCatagory@getAll');
+    Route::get('getCatagory','CatagoryController@getAll');
     Route::get('nearbySellers','SellerController@getNearby');
     Route::group(['prefix' => 'user','middleware'=>'auth'], function () {
         Route::get('login/{uid}','UserController@getByUid');
@@ -29,8 +29,10 @@ Route::group(['middleware' => ['cors']], function () {
     });
     Route::group(['prefix' => 'seller','middleware'=>'auth'], function () {
         Route::get('getSeller','SellerController@getAll');
-       
+        Route::get('getItems','ProductController@getSellerItems');
         Route::post('register','SellerController@register');
+        Route::post('addItem','ProductController@store');
+        Route::get('login','SellerController@login');
     });
 });
 

@@ -10,15 +10,16 @@ class Address extends Model
     public static function getAddress($address_id)
     {
      return DB::table('address')
-        ->join('indian_states','address.state_id','=','indian_states.id')
-        ->select( 'address.name as delivery_name',
+        ->select( 'address.id',
+                  'address.name',
                   'address.pin',
                   'address.lat',
                   'address.lng',
                   'address.number',
+                  'address.address',
+                  'address.formatted_address',
                   'address.city',
-                  'address.state_id',
-                  'indian_states.name as state',
+                  'address.state',
                   'address.landmark',
                   'address.locality')
           ->where('address.id',$address_id)

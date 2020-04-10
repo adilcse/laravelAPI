@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\User;
+use App\Model\Seller;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Firebase\Auth\Token\Exception\InvalidToken;
@@ -57,6 +58,7 @@ class AuthServiceProvider extends ServiceProvider
                             else
                                 return null;
                         } 
+                        return Seller::where('uid',$uid)->first();
                     }
                 } catch (\InvalidArgumentException $e) {
                  //   echo 'The token could not be parsed: '.$e->getMessage();
