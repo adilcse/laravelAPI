@@ -28,11 +28,13 @@ Route::group(['middleware' => ['cors']], function () {
         Route::post('updateCart','CartController@updateCart'); 
     });
     Route::group(['prefix' => 'seller','middleware'=>'auth'], function () {
-        Route::get('getSeller','SellerController@getAll');
         Route::get('getItems','ProductController@getSellerItems');
         Route::post('register','SellerController@register');
         Route::post('addItem','ProductController@store');
+        Route::post('updateItem/{id}','ProductController@update');
+        Route::get('deleteItems','ProductController@delete');
         Route::get('login','SellerController@login');
+
     });
 });
 

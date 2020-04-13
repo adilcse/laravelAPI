@@ -44,5 +44,34 @@ class ProductController extends Controller
             return response(['error'=>$e],200);
         }
     }
+    public static function update(Request $request,$id)
+    {
+        $reqData=(array)json_decode($request->input('json'));
+        $seller=Auth::user();
+        try{
+        $up=Product::where('id',$id)
+                ->where('seller_id',$seller->id)
+                ->update($reqData); 
+        return response(['status'=>$up],200);
+        }
+        catch(QueryException $e){
+            return response(['error'=>$e],200);
+        } 
+    }
+    public static function delete(Request $request)
+    {
+       $idsStr=$request->input('ids');
+        $ids=explode(',',$idsStr);
+        $seller=Auth::user();
+        try{
+        $status=Product::where('seller_id',$seller->id)
+                ->whereIn('id',$ids)
+                ->delete();
+        return response(['status'=>$status],200);
+        }
+        catch(QueryException $e){
+            return response(['error'=>$e],200);
+        }
+    }
 
 }
