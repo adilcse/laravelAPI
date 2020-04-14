@@ -47,10 +47,11 @@ class UserController extends Controller
                  ];
                  $content=[];
                  $status=200;
-                 try{
-             $userData = AddressController::getUserAddress($user); 
+                 
+            try{
+            $address = AddressController::getUserAddress($user);
             $userCart = CartController::getUserCart($user['id']);
-            $content=array_merge($userData,$userCart);
+            $content=['user'=>$user,'address'=>$address,'cart'=>$userCart];
                  }
                  catch(Exception $e){
                     $content=['error'=>$e];
@@ -58,6 +59,16 @@ class UserController extends Controller
                  }
                  return response($content,$status);
         
+    }
+    public static function updateAddressid($user_id,$address_id)
+    {
+        try{
+        User::where('id',$user_id)
+        ->update(['address_id'=>$address_id]);
+        return true;
+        }catch(QueryException $e){
+            return null;
+        }
     }
 
   

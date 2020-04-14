@@ -8,7 +8,7 @@ class Product extends Model
 {
     public static function getSellersItems($sellers)
     {
-        Product::whereIn('seller_id',$sellers)->get()->toArray();
+       return Product::whereIn('seller_id',$sellers)->get()->toArray();
     }
     public static function store($id,$data)
     {

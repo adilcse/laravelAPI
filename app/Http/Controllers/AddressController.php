@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\Address;
-use App\Providers\GenerateToken;
 use Illuminate\Database\QueryException;
 use App\Http\Controllers\UserController;
-
+use Illuminate\Support\Facades\Auth;
 class AddressController extends Controller
 {
     public static function getUserAddress($id)
@@ -17,18 +16,41 @@ class AddressController extends Controller
            return  null;
         }   
     }
-    public static function getInsertId($address,$type)
+    public static function saveAddress($address,$type)
     {
-      return Address::insertGetId([
-           'city'=>array_key_exists('city',$address)?$address['city']:null,
-           'state'=>array_key_exists('state',$address)?$address['state']:null,
-           'landmark'=>array_key_exists('landmark',$address)?$address['landmark']:null,
-           'locality'=>array_key_exists('locality',$address)?$address['locality']:null,
-           'pin'=>array_key_exists('pin',$address)?$address['pin']:null,
-           'lat'=>array_key_exists('lat',$address)?$address['lat']:null,
-           'lng'=>array_key_exists('lng',$address)?$address['lng']:null
-       ]);
+        try{
+     return Address::store($address,$type);
+        }
+        catch(QueryException $e){
+            return null;
+        }
     }
+    public static function deleteAddress($id)
+    {
+       try{
+           Address::where('id',$id)->delete();
+           return true;
+       } 
+       catch (QueryException $e){
+
+           return false;
+       }
+    }
+    public static function updateAddress(Request $request)
+    {
+        $address=(array)$request->input('json');
+        $user=Auth::user();
+        try{
+             $id = AddressController::saveAddress($address);
+             UserController::updatAddressId($user->id,$id);
+             return response(['status'=>'success'],200);
+        }
+        catch(QueryException $e){
+            return response(['error'=>$e],403);
+                }
+      
+    }
+   
 
    
 }

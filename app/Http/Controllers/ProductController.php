@@ -16,7 +16,7 @@ class ProductController extends Controller
         }
         catch(QueryException $e)
         {
-            return null;
+            return [];
         }
        
     }

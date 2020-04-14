@@ -18,14 +18,15 @@ Route::group(['middleware' => ['cors']], function () {
     Route::get('getCatagory','CatagoryController@getAll');
     Route::get('nearbySellers','SellerController@getNearby');
     Route::group(['prefix' => 'user','middleware'=>'auth'], function () {
-        Route::get('login/{uid}','UserController@getByUid');
-        Route::post('userRegister','UserController@store');
-        Route::post('addToCart','CartController@addToCart');
-        Route::post('placeOrder','OrderController@store');
+    Route::get('login/{uid}','UserController@getByUid');
+    Route::post('userRegister','UserController@store');
+    Route::post('addToCart','CartController@addToCart');
+    Route::post('placeOrder','OrderController@store');
+    Route::get('getOrders','OrderController@userOrder');
+    Route::post('updateAddress','AddressController@updateAddress');
+    Route::get('removeFromCart/{id}/delete','CartController@removeFromCart');
 
-        Route::get('removeFromCart/{id}/delete','CartController@removeFromCart');
-
-        Route::post('updateCart','CartController@updateCart'); 
+    Route::post('updateCart','CartController@updateCart'); 
     });
     Route::group(['prefix' => 'seller','middleware'=>'auth'], function () {
         Route::get('getItems','ProductController@getSellerItems');

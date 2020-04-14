@@ -18,7 +18,7 @@ class CartController extends Controller
             $value['price']=$value['price'] - floor($value['price'] * $value['discount']/100);
             $cartItems[$key]=$value;
         }
-        return ['cart'=>$cartItems];    
+        return $cartItems;    
    }
    public static function addToCart(Request $request)
    {
@@ -64,6 +64,16 @@ class CartController extends Controller
             return response(['error'=>$e],403);
         }
        
+    }
+    public static function emptyUserCart($user_id)
+    {
+        try{
+        return Cart::where('user_id',$user_id)
+                ->delete();
+        }
+        catch(QueryException $e){
+            return false;
+        }
     }
    
 }

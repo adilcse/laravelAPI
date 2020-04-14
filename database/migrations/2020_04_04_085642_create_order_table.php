@@ -20,6 +20,7 @@ class CreateOrderTable extends Migration
             $table->enum('status',array('ACCEPTED','OUT_FOR_DELIVERY','PENDING','CANCELLED','DELIVERED'))->default('PENDING');
             $table->enum('payment_mode',array('COD','UPI','DEBIT_CARD','CREDIT_CARD','NET_BANKING','WALLET'));
             $table->integer('total_amount')->unsigned();
+            $table->integer('delivery_amount')->unsigned();
             $table->integer('refund_amount')->unsigned()->default(0);
             $table->smallInteger('total_items')->unsigned();
             $table->smallInteger('rejected_items')->unsigned()->default(0);

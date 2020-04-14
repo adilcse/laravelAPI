@@ -14,10 +14,12 @@ class SellerController extends Controller
 			$lng=$request->input('lng');
 			$radius=$request->input('radius');
 			$content= Seller::within($lat,$lng,$radius);
+		
 			$seller_ids=[];
 			foreach ($content as $value) {
 				array_push($seller_ids,$value->id);
 			};
+			
 			$products=ProductController::getSellersProducts($seller_ids);
 			foreach($products as $key=>$value){
 				$value['MRP']=$value["price"];
@@ -36,7 +38,7 @@ class SellerController extends Controller
 			$result=[];
 			$code=200;
 			try{
-				$addressId=AddressController::getInsertId((array)$address,'SELLER');
+				$addressId=AddressController::saveAddress((array)$address,'SELLER');
 				$content=Seller::insert([
 					'name'=>$reqData['name'],
 					'uid'=>$reqData['uid'],

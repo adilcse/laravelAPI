@@ -17,6 +17,7 @@ class CreateAddressTable extends Migration
             $table->bigIncrements('id');
             $table->string('name')->nullable();
             $table->string('number',10)->nullable();
+            $table->string('alternate',10)->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->string('address')->nullable();

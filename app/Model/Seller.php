@@ -22,9 +22,7 @@ class Seller extends Model
        * 
        */
       public static function within($mylat,$mylng,$dist,$lmt=100){
-        $value=DB::table('sellers')
-                ->join('address','sellers.address_id','=','address.id')
-                ->join('indian_states','address.state_id','=','indian_states.id')
+        $value=Seller::join('address','sellers.address_id','=','address.id')
                 ->select(DB::raw('getDistance(address.lat,address.lng,'.$mylat.','.$mylng.') AS distance'),
                         'sellers.name as shop_name',
                         'sellers.email',
@@ -35,8 +33,7 @@ class Seller extends Model
                         'address.lng',
                         'address.number',
                         'address.city',
-                        'address.state_id',
-                        'indian_states.name as state',
+                        'address.state',
                         'address.landmark',
                         'address.locality')
                 ->having('distance','<',$dist)
