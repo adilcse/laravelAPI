@@ -22,7 +22,7 @@ class Address extends Model
                   'address.landmark',
                   'address.locality')
           ->where('address.id',$address_id)
-          ->first();
+          ->first()->toArray();
     }
     public static function store($address,$type)
     {

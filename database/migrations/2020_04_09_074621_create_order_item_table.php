@@ -18,7 +18,7 @@ class CreateOrderItemTable extends Migration
             $table->bigInteger('item_id')->unsigned();
             $table->integer('quantity')->unsigned()->default(1);
             $table->integer('price')->unsigned()->default(0);
-            $table->boolean('confirmed')->nullable()->default(false);
+            $table->boolean('confirmed')->nullable()->default(true);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
             $table->primary(['order_id','item_id']);

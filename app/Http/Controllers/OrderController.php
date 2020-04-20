@@ -42,4 +42,100 @@ class OrderController extends Controller
         }
     }
 
-}
+    public static function getUserOrder(Request $request,$per_page)
+    {
+        $from='user_id';
+        if($request->is('seller/*'))
+            $from='seller_id';
+        $user=Auth::user();
+        try{
+            
+          $order=Order::getOrderWithItems($from,$user->id,$per_page);
+          return response(['order'=>$order],200);
+        }
+        catch(QueryException $e){
+           return response(['error'=>$e],403);
+        }
+    }
+    public function acceptReject(Request $request,$id)
+    {
+        try{
+        $user=Auth::user();
+        $order=Order::find($id);
+        if($user->id != $order->seller_id)
+            return response(['status'=>false,'error'=>'seller id not matched'],403);
+        $order_items=Order::getItems($id);
+        $reqData=json_decode($request->input('json'));
+        $items=$reqData->items;
+        $status=$reqData->status;
+        if(!$status)
+            Order::reject($id);
+        else{
+         //   
+            $refund_amount=0;
+            $rejected_items=0;
+            foreach($items as $item){
+                $search_item = null;
+                foreach($order_items as $struct) {
+                    if ($item->id == $struct->item_id) {
+                        $search_item = $struct;
+                        break;
+                    }    
+                }
+                if($search_item){
+                    if($item->accept!=$search_item->accept){
+                    Order::updateOrderItem($item->id,$id,$item->accept);
+                    }
+                    if(!$item->accept){
+                        $refund_amount+=$search_item->price*$search_item->quantity;
+                        $rejected_items++;
+                        }
+                    }   
+                }
+            Order::accept($id,$refund_amount,$rejected_items);
+
+            }
+                
+            return response(['status'=>true],200);
+        }
+        catch(Exception $e){
+            return response(['status'=>false,'error'=>$e],200);
+        }
+    }
+    public function update(Request $request,$id)
+    {
+        $user=Auth::user();
+        $order=Order::find($id);
+        if($user->id != $order->seller_id)
+            return response(['status'=>false,'error'=>'seller id not matched'],403);
+        $status=$request->input('status');
+        $error=false;
+        switch($order->status){
+            case 'PENDING':
+                if($status=='ACCEPTED' || $status=='CANCELLED')
+                    Order::statusUpdate($id,$status);
+                else
+                    $error=true;
+            break;
+            case 'ACCEPTED':
+                if($status=='OUT_FOR_DELIVERY')
+                    Order::statusUpdate($id,$status);
+                else 
+                    $error=true;
+            break;
+            case 'OUT_FOR_DELIVERY':
+                if($status=='DELIVERED')
+                    Order::statusUpdate($id,$status);
+                else 
+                    $error=true;
+            break;
+            default:
+                $error=true;
+        }
+        if($error)
+            return response(['status'=>false,'error'=>'invalid status'],403);
+        else
+        return response(['status'=>true],200);
+    }
+
+} 
