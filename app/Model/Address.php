@@ -9,7 +9,7 @@ class Address extends Model
     protected $table='address';
     public static function getAddress($address_id)
     {
-     return Address::select( 'address.id',
+     $address = Address::select( 'address.id',
                   'address.name',
                   'address.pin',
                   'address.lat',
@@ -22,7 +22,11 @@ class Address extends Model
                   'address.landmark',
                   'address.locality')
           ->where('address.id',$address_id)
-          ->first()->toArray();
+          ->first();
+          if($address)
+            return (array)$address;
+        else 
+            return false;
     }
     public static function store($address,$type)
     {

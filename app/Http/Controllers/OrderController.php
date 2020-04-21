@@ -92,11 +92,11 @@ class OrderController extends Controller
                         }
                     }   
                 }
-            Order::accept($id,$refund_amount,$rejected_items);
+            $data=Order::accept($id,$refund_amount,$rejected_items);
 
             }
                 
-            return response(['status'=>true],200);
+            return response(['status'=>true,'data'=>$data],200);
         }
         catch(Exception $e){
             return response(['status'=>false,'error'=>$e],200);

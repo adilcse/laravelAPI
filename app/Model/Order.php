@@ -133,6 +133,30 @@ class Order extends Model
 
     public static function accept($id,$refund,$reject)
     {
+        $items=DB::table('order_items')
+                 ->select('order_items.item_id',
+                    'order_items.quantity',
+                    'order_items.confirmed',
+                    'products.stock'
+                    )
+                ->where('order_items.order_id',$id)
+                ->join('products','products.id','=','order_items.item_id')
+                ->get();
+        foreach($items as $item){
+            if($item->confirmed==1){
+                $new_stock=$item->stock - $item->quantity;
+                if($new_stock>0)
+                    DB::table('products')
+                        ->where('id',$item->item_id)
+                        ->update(['stock'=>$new_stock]);
+                else
+                DB::table('order_items')
+                    ->where('order_id',$id)
+                    ->where('item_id',$item->item_id)
+                    ->update(['confirmed'=>0]);
+            }
+        }
+
         Order::where('id',$id)
         ->update(['status'=>'ACCEPTED',
                    'refund_amount'=>$refund,
@@ -151,9 +175,11 @@ class Order extends Model
             return false;
         }      
     }
+
     public static function updateOrderItem($item_id,$order_id,$status)
     {
         try{
+            
             return DB::table('order_items')
            ->where('order_id',$order_id)
            ->where('item_id',$item_id)
