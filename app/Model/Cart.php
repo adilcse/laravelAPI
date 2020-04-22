@@ -4,12 +4,19 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
+/**
+ * Cart model handle cart CURD operation
+ */
 class Cart extends Model
 {
     protected $table='carts';
+    /**
+     * get cart items by user id
+     * @param user_id whose cart to be fetched
+     */
     public static function getCartItems($id)
     {
-       $itemsObj= DB::table('carts')
+        $itemsObj= DB::table('carts')
                     ->select('carts.id as cart_id',
                             'carts.item_id',
                             'carts.quantity',
@@ -22,22 +29,32 @@ class Cart extends Model
                             'products.stock')
                     ->join('products','carts.item_id','=','products.id')
                     ->where('carts.user_id',$id)->get();
-       $items=[];
-       foreach($itemsObj as $item){
-           array_push($items,(array)$item);
-       }
-       return $items;
+        $items=[];
+        foreach($itemsObj as $item){
+            array_push($items,(array)$item);
+        }
+        return $items;
     }
-
+    /**
+     * add item to cart
+     * @param item_details
+     * @return new_cart_id
+     */
     public static function addItem($data)
     {
         return DB::table('carts')
         ->insertGetId($data);
     }
+    /**
+     * update cart of a user
+     * @param user_id
+     * @param item_id
+     * @param quantity
+     */
     public static function updateCart($user_id,$item_id,$quantity)
     {
-      return Cart::where('user_id','=',$user_id)
-       ->where('item_id','=',$item_id)
-       ->update(['quantity'=>$quantity]);
+        return Cart::where('user_id','=',$user_id)
+                ->where('item_id','=',$item_id)
+                ->update(['quantity'=>$quantity]);
     }
 }

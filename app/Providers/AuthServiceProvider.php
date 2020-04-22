@@ -10,7 +10,7 @@ use Firebase\Auth\Token\Exception\InvalidToken;
 
 class AuthServiceProvider extends ServiceProvider
 {
-   private $auth ;
+    private $auth ;
     /**
      * Register any application services.
      *
@@ -38,6 +38,7 @@ class AuthServiceProvider extends ServiceProvider
             if ($token) { 
                 $verifiedIdToken=null;
                 try {
+                    //verify token by firebase auth
                     $verifiedIdToken = $this->auth->verifyIdToken($token);
                     $uid = $verifiedIdToken->getClaim('sub');
                     if($request->is('user/*')){
@@ -61,14 +62,11 @@ class AuthServiceProvider extends ServiceProvider
                         return Seller::where('uid',$uid)->first();
                     }
                 } catch (\InvalidArgumentException $e) {
-                 //   echo 'The token could not be parsed: '.$e->getMessage();
                     return null;
                 } catch (InvalidToken $e) {
-                 //   echo 'The token is invalid: '.$e->getMessage();
                     return null;
-                }
-              
-           }
+                }    
+            }
         });
     }
 }

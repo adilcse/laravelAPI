@@ -8,49 +8,70 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 class AddressController extends Controller
 {
-    public static function getUserAddress($id)
-    {
-        try{
-            return (array)Address::getAddress($id);
-        }catch(Exception $e){
-           return  null;
-        }   
-    }
-    public static function saveAddress($address,$type)
-    {
-        try{
-     return Address::store($address,$type);
-        }
-        catch(QueryException $e){
-            return null;
-        }
-    }
-    public static function deleteAddress($id)
-    {
-       try{
-           Address::where('id',$id)->delete();
-           return true;
-       } 
-       catch (QueryException $e){
+	/**
+	 * get user's address by user address id
+	 * @param {*} id
+	 */
+	public static function getUserAddress($id)
+	{
+		try{
+			return Address::getAddress($id);
+		}
+		catch(Exception $e){
+			return  null;
+		}
+	}
+	/**
+	 * save address to address table and return new id of the inserted address
+	 */
+	public static function saveAddress($address,$type='USER')
+	{
+		// check if latitude and longitude is valid
+		if(!is_double($address['lat']))
+			unset($address['lat']);
+			if(!is_double($address['lng']))
+			unset($address['lng']);
+		try{
+			return Address::store($address,$type);
+		}
+		catch(QueryException $e){
+			return null;
+		}
+	}
+	/**
+	 * delete an address which is not assigned to any user or order
+	 */
+	public static function deleteAddress($id)
+	{
+		try{
+			Address::where('id',$id)->delete();
+			return true;
+		}
+		catch (QueryException $e){
+			return false;
+		}
+	}
+	/**
+	 * update address API. user can edit ite address by this function
+	 */
+	public static function updateAddress(Request $request)
+	{
+		$address=(array)json_decode($request->input('json'));
+		$user=Auth::user();
+		$old_address=$user->address_id;
+		try{
+			$id = AddressController::saveAddress($address);
+			if($id){
+				UserController::updateAddressid($user->id,$id);
+				$delete=AddressController::deleteAddress($old_address);
+				return response(['status'=>'success','delete'=>$delete],200);
+			}else{
+				return response(['error'=>'address can not updated'],200);
+			}
+		}
+		catch(QueryException $e){
+			return response(['error'=>$e],403);
+		}
+	}
 
-           return false;
-       }
-    }
-    public static function updateAddress(Request $request)
-    {
-        $address=(array)$request->input('json');
-        $user=Auth::user();
-        try{
-             $id = AddressController::saveAddress($address);
-             UserController::updatAddressId($user->id,$id);
-             return response(['status'=>'success'],200);
-        }
-        catch(QueryException $e){
-            return response(['error'=>$e],403);
-                }
-      
-    }
-   
-
-   
 }

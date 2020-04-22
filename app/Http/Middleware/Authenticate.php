@@ -35,17 +35,12 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-
+        //if user not authorized then return otherwise forward request
         if ($this->auth->guard($guard)->guest()) {
-
-              $content=[
-                'error' => 'unauthorized',
-              ];
-              $status=401;
-              return response($content, $status);
-         
+            $content=['error' => 'unauthorized'];
+            $status=401;
+            return response($content, $status);
         }
-
         return $next($request);
     }
 }

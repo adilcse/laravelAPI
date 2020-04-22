@@ -8,7 +8,7 @@ class HandleCors
 {
     /**
      * Handle an incoming request.
-     *
+     * add header to response so request can be processed by API calls
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @return mixed

@@ -14,10 +14,15 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+/**
+ * no authentication needed for these API calls
+ */
 Route::group(['middleware' => ['cors']], function () {
     Route::get('getCatagory','CatagoryController@getAll');
     Route::get('nearbySellers','SellerController@getNearby');
-
+/**
+ * only authenticated user can access these APIS
+ */
     Route::group(['prefix' => 'user','middleware'=>'auth'], function () {
         Route::get('login/{uid}','UserController@getByUid');
         Route::post('userRegister','UserController@store');
@@ -26,9 +31,12 @@ Route::group(['middleware' => ['cors']], function () {
         Route::get('getOrders/{per_page}','OrderController@getUserOrder');
         Route::post('updateAddress','AddressController@updateAddress');
         Route::get('removeFromCart/{id}/delete','CartController@removeFromCart');
-
+        Route::post('updateAddress','AddressController@updateAddress');
         Route::post('updateCart','CartController@updateCart'); 
     });
+    /**
+     * only registered seller can access these APIs 
+     */
     Route::group(['prefix' => 'seller','middleware'=>'auth'], function () {
         Route::get('getItems','ProductController@getSellerItems');
         Route::post('register','SellerController@register');

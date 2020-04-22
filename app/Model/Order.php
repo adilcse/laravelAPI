@@ -33,25 +33,25 @@ class Order extends Model
      */
     public static function storeOrderItem($order_id,$item)
     {
-       try{
-           DB::table('order_items')
-        ->insert([
-            'order_id'=>$order_id,
-            'item_id'=>$item->id,
-            'quantity'=>$item->quantity,
-            'price'=>$item->price
-        ]);
-       }
-       catch(QueryException $e){
-           return false;
-       }
+        try{
+            DB::table('order_items')
+                ->insert([
+                    'order_id'=>$order_id,
+                    'item_id'=>$item->id,
+                    'quantity'=>$item->quantity,
+                    'price'=>$item->price
+                ]);
+        }
+        catch(QueryException $e){
+            return false;
+        }
     }
     /**
      * get all orders of a user or seller
      */
     public static function getOrderWithItems($from,$user_id,$per_page)
     {
-       $orders=Order::select("orders.*",
+        $orders=Order::select("orders.*",
                             "order_items.order_id",
                             "order_items.item_id",
                             "products.name AS item_name",
@@ -77,11 +77,10 @@ class Order extends Model
                 ->where("orders.".$from,$user_id) 
                 ->latest()
                 ->get();
-
         $order_ids=[];
         $my_orders=[];
-         foreach($orders->all() as $order){
-             $order=(object)$order->original;
+        foreach($orders->all() as $order){
+            $order=(object)$order->original;
             $item=[ 'name'=>$order->item_name,
                     'id'=>$order->item_id,
                     'image'=>$order->item_image,
@@ -94,8 +93,8 @@ class Order extends Model
                     unset($order->item_price);
                     unset($order->item_quantity);
                     unset($order->item_status);
-             if(!in_array($order->id,$order_ids)){
-                 $address=["name"=>$order->loc_name,
+            if(!in_array($order->id,$order_ids)){
+                $address=["name"=>$order->loc_name,
                         "number"=>$order->loc_number,
                         "address"=>$order->loc_address,
                         "locality"=>$order->loc_locality,
@@ -117,24 +116,29 @@ class Order extends Model
                 $order->items=[$item];
                 $order->delivery_address=$address;
                 array_push($my_orders,(array)$order);
-             }else{
+            }else{
                 $index=array_search($order->id, array_column($my_orders, 'id'));
-                  array_push($my_orders[$index]['items'],$item);
-             } 
+                    array_push($my_orders[$index]['items'],$item);
+            } 
         }
         return $my_orders;
     }
-
+    /**
+     * reject order by seller
+     * @param order id
+     */
     public static function reject($id)
     {
-        Order::where('id',$id)
-        ->update(['status'=>'CANCELLED']);
+        return Order::where('id',$id)
+                ->update(['status'=>'CANCELLED']);
     }
-
+    /**
+     * accept order by seller and reduce stock
+     */
     public static function accept($id,$refund,$reject)
     {
         $items=DB::table('order_items')
-                 ->select('order_items.item_id',
+                    ->select('order_items.item_id',
                     'order_items.quantity',
                     'order_items.confirmed',
                     'products.stock'
@@ -156,39 +160,52 @@ class Order extends Model
                     ->update(['confirmed'=>0]);
             }
         }
-
         Order::where('id',$id)
         ->update(['status'=>'ACCEPTED',
-                   'refund_amount'=>$refund,
-                   'rejected_items'=>$reject]);
+                'refund_amount'=>$refund,
+                'rejected_items'=>$reject]);
     }
-
+    /**
+     * get order item by order id
+     * @param order_id
+     * @return items of requested order
+     */
     public static function getItems($id)
     {
         try{
-             return DB::table('order_items')
-            ->select('order_id','item_id','quantity','price','confirmed AS accept')
-            ->where('order_id',$id)
-            ->get();
+                return DB::table('order_items')
+                    ->select('order_id','item_id','quantity','price','confirmed AS accept')
+                    ->where('order_id',$id)
+                    ->get();
         }
         catch(QueryException $e){
             return false;
         }      
     }
-
+    /**
+     * update item status
+     * @param item_id
+     * @param order_id
+     * @param item_status 0,1
+     */
     public static function updateOrderItem($item_id,$order_id,$status)
     {
         try{
             
             return DB::table('order_items')
-           ->where('order_id',$order_id)
-           ->where('item_id',$item_id)
-           ->update(['confirmed'=>$status]);
-       }
-       catch(QueryException $e){
-           return false;
-       }         
+                    ->where('order_id',$order_id)
+                    ->where('item_id',$item_id)
+                    ->update(['confirmed'=>$status]);
+        }
+        catch(QueryException $e){
+            return false;
+        }         
     }
+    /**
+     * update order status
+     * @param order_id
+     * @param suatus
+     */
     public static function statusUpdate($id,$status)
     {
         if($status=='DELIVERED')

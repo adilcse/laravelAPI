@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+/**
+ * sample controller
+ */
 class ExampleController extends Controller
 {
     /**
