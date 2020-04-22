@@ -42,7 +42,7 @@ class OrderController extends Controller
             }
             $from=$reqData->from;
             //clear cart after order placed
-            if($from=='cart')
+            if('cart' === $from)
                 CartController::emptyUserCart($user->id);
         return response(['status'=>'success'],200);
         }
@@ -127,7 +127,7 @@ class OrderController extends Controller
     {
         $user=Auth::user();
         $order=Order::find($id);
-        //return if seller is not authorized
+        //return if seller is not authorized $order=Order::getOrderWithItems($from,$user->id,$per_page);
         if($user->id != $order->seller_id)
             return response(['status'=>false,'error'=>'seller id not matched'],403);
         $status=$request->input('status');

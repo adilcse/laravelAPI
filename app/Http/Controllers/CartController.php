@@ -1,10 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Model\Address;
-use App\Providers\GenerateToken;
 use Illuminate\Database\QueryException;
-use App\Http\Controllers\CartController;
 use App\Model\Cart;
 use Illuminate\Support\Facades\Auth;
 /**

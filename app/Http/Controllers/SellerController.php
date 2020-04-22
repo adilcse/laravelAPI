@@ -57,7 +57,6 @@ class SellerController extends Controller
 				'uid'=>$reqData['uid'],
 				'email'=>$reqData['email'],
 				'number'=>$reqData['mobile'],
-				//'current_status'=>$reqData['current_status'],
 				'current_status'=>'ACTIVE',
 				'address_id'=>$addressId
 			]);
