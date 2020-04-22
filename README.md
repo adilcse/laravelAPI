@@ -1,8 +1,12 @@
 # Lumen PHP Framework
 PHP lumen API for grocery app.
 It has 2 section :
+
+
 1.USER
 2.SELLER
+
+
 user can register, siginin, get nearby sellers,
 add item in Cart, update Cart, remove item from cart,
 Place order, add address, update address,
