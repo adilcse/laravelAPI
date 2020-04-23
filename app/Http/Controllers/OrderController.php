@@ -23,12 +23,12 @@ class OrderController extends Controller
         try{
             //save delivery address and get address id
             $addressId=AddressController::saveAddress((array)$reqData->address,'USER');
-            if($reqData->address->updateAddress && $user->addressId)
+            if($reqData->address->updateAddress && $user->address_id)
             {
                 UserController::updateAddressId($user->id,$addressId);
-                AddressController::deleteAddress($user->addressId);   
+                AddressController::deleteAddress($user->address_id);   
             }
-            else if(!$user->addressId)
+            else if(!$user->address_id)
                 UserController::updateAddressId($user->id,$addressId);
             foreach($reqData->order as $ord){
                 //place order and add address id 
@@ -50,6 +50,8 @@ class OrderController extends Controller
             return response(['error'=>$e],403);
         }
     }
+
+
     /**
      * get order of a user 
      * @param user_requst 
@@ -71,6 +73,8 @@ class OrderController extends Controller
             return response(['error'=>$e],403);
         }
     }
+
+
     /**
      * seller accept or reject an order 
      * @param Request
@@ -122,6 +126,8 @@ class OrderController extends Controller
             return response(['status'=>false,'error'=>$e],200);
         }
     }
+
+    
     /**
      * update an order status by seller
      */

@@ -35,6 +35,8 @@ class Cart extends Model
         }
         return $items;
     }
+
+
     /**
      * add item to cart
      * @param item_details
@@ -45,6 +47,8 @@ class Cart extends Model
         return DB::table('carts')
         ->insertGetId($data);
     }
+
+    
     /**
      * update cart of a user
      * @param user_id

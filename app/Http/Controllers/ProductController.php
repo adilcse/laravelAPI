@@ -24,6 +24,8 @@ class ProductController extends Controller
             return [];
         } 
     }
+
+
     /**
      * get all product of a seller
      */
@@ -37,6 +39,8 @@ class ProductController extends Controller
             return response(['error'=>'no item found'],200);
         }
     }
+
+
     /**
      * save a product of a seller
      */
@@ -54,6 +58,8 @@ class ProductController extends Controller
             return response(['error'=>$e],200);
         }
     }
+
+    
     /**
      * update a product details by seller
      * only authorized seller can update details
@@ -72,6 +78,8 @@ class ProductController extends Controller
             return response(['error'=>$e],200);
         } 
     }
+
+    
     /**
      * delete a product by authorized seller
      */

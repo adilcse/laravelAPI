@@ -38,6 +38,8 @@ class SellerController extends Controller
 		$status=200;
 		return response(['sellers'=>$content,'products'=>$products], $status);	
 	}	
+
+
 	/**
 	 * register a new seller
 	 * for now new user is in ACTIVE state
@@ -69,6 +71,8 @@ class SellerController extends Controller
 		}
 		return response($result,$code);
 	}
+
+	
 	/**
 	 * seller login, verify id and returns selelr details
 	 */

@@ -14,6 +14,8 @@ class Seller extends Model
 		$value=DB::table('sellers')->orderBy('name', 'asc')->get();
 		return $value;
 	}
+
+
 	/**
 	   * return sellers within a geographic region;
 	   * @param {} $mylat
@@ -21,7 +23,8 @@ class Seller extends Model
 	   * @param { } $dist
 	   * 
 	*/
-	public static function within($mylat,$mylng,$dist,$lmt=100){
+	public static function within($mylat,$mylng,$dist,$lmt=100)
+	{
 		$value=Seller::join('address','sellers.address_id','=','address.id')
 				->select(DB::raw('getDistance(address.lat,address.lng,'.$mylat.','.$mylng.') AS distance'),
 						'sellers.name as shop_name',

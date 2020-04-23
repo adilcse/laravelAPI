@@ -25,6 +25,7 @@ class CartController extends Controller
         return $cartItems;    
     }
 
+
     /**
      * add item to user's cart and return the cart id
      */
@@ -41,6 +42,7 @@ class CartController extends Controller
             return response($e,403);
         }
     }
+
 
     /**
      * remove any item from cart by item id
@@ -61,6 +63,8 @@ class CartController extends Controller
             return response(['status'=>$e],403);
         }
     }
+
+
     /**
      * update any cart item quantity 
      */
@@ -76,9 +80,10 @@ class CartController extends Controller
         }catch(QueryException $e)
         {
             return response(['error'=>$e],403);
-        }
-        
+        }   
     }
+
+
     /**
      * clear user's cart by user id
      * @param userId id of user whose cart is to be cleared

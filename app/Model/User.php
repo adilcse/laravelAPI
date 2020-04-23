@@ -6,16 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 class User extends Model
 {
-	public static function getuserData(){
+	public static function getuserData()
+	{
 		$value=DB::table('users')->orderBy('id', 'asc')->get();
 		return $value;
 	}
+
+
 	/**
 	   * stores new user data in database
 	   */
-	public static function store($userData){
+	public static function store($userData)
+	{
 		return DB::table('users')->insert($userData);
-	}  
+	}
+	
+	
 	/**
 	 * get user by uid
 	 */

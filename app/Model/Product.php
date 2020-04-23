@@ -18,6 +18,8 @@ class Product extends Model
     {
         return Product::whereIn('seller_id',$sellers)->get()->toArray();
     }
+
+    
     /**
      * store a product to product table by seler
      * @param seller_id

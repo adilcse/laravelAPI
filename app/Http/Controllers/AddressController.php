@@ -21,6 +21,8 @@ class AddressController extends Controller
 			return  null;
 		}
 	}
+
+
 	/**
 	 * save address to address table and return new id of the inserted address
 	 */
@@ -38,6 +40,8 @@ class AddressController extends Controller
 			return null;
 		}
 	}
+
+
 	/**
 	 * delete an address which is not assigned to any user or order
 	 */
@@ -51,6 +55,8 @@ class AddressController extends Controller
 			return false;
 		}
 	}
+
+
 	/**
 	 * update address API. user can edit ite address by this function
 	 */
@@ -76,5 +82,5 @@ class AddressController extends Controller
 			return response(['error'=>$e],403);
 		}
 	}
-
+	
 }

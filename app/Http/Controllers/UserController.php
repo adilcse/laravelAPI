@@ -35,6 +35,8 @@ class UserController extends Controller
             return response($ex, $status);
         }
     }
+
+
     /**
      * get user details by user id
      * @param id user id
@@ -63,6 +65,8 @@ class UserController extends Controller
         }
         return response($content,$status);
     }
+
+    
     /**
      * update user's address id
      */
