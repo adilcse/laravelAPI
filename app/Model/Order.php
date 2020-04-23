@@ -159,7 +159,7 @@ class Order extends Model
                 ->join('products','products.id','=','order_items.item_id')
                 ->get();
         foreach($items as $item){
-            if($item->confirmed==1){
+            if($item->confirmed===1){
                 $new_stock=$item->stock - $item->quantity;
                 if($new_stock>0)
                     DB::table('products')
@@ -226,7 +226,7 @@ class Order extends Model
      */
     public static function statusUpdate($id,$status)
     {
-        if($status=='DELIVERED'){
+        if($status==='DELIVERED'){
             return Order::where('id',$id)
                         ->update(['status'=>$status,'delivered_at'=>DB::raw('now()')]);
         }

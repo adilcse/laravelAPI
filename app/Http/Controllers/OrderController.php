@@ -103,7 +103,7 @@ class OrderController extends Controller
                 foreach($items as $item){
                     $searchItem = null;
                     foreach($orderItems as $struct) {
-                        if ($item->id == $struct->item_id) {
+                        if ($item->id === $struct->item_id) {
                             $searchItem = $struct;
                             break;
                         }    
@@ -146,7 +146,7 @@ class OrderController extends Controller
         //only allow limited update function
         switch($order->status){
             case 'PENDING':
-                if($status=='ACCEPTED' || $status=='CANCELLED'){
+                if($status==='ACCEPTED' || $status==='CANCELLED'){
                     Order::statusUpdate($id,$status);
                 }
                 else{
@@ -154,7 +154,7 @@ class OrderController extends Controller
                 }
             break;
             case 'ACCEPTED':
-                if($status=='OUT_FOR_DELIVERY'){
+                if($status==='OUT_FOR_DELIVERY'){
                     Order::statusUpdate($id,$status);
                 }
                 else{ 
@@ -162,7 +162,7 @@ class OrderController extends Controller
                 }
             break;
             case 'OUT_FOR_DELIVERY':
-                if($status=='DELIVERED'){
+                if($status==='DELIVERED'){
                     Order::statusUpdate($id,$status);
                 }
                 else {

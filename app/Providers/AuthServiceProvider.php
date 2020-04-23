@@ -44,7 +44,7 @@ class AuthServiceProvider extends ServiceProvider
                     if($request->is('user/*')){
                         if($request->is('user/userRegister')){
                             $reqData=json_decode($request->input('json'));
-                            if($uid==$reqData->uid)
+                            if($uid===$reqData->uid)
                                 return true;
                             else
                                 return null;
@@ -54,7 +54,7 @@ class AuthServiceProvider extends ServiceProvider
                     else if($request->is('seller/*')){
                         if($request->is('seller/register')){
                             $reqData=json_decode($request->input('json'));
-                            if($uid==$reqData->uid)
+                            if($uid===$reqData->uid)
                                 return true;
                             else
                                 return null;
