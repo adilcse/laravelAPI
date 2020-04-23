@@ -41,7 +41,7 @@ class UserController extends Controller
      * @param id user id
      * @return user_details with address
      */
-    public function getByUid($id)
+    public function getByUid()
     {
         $userObj = Auth::user();
         $user= ['name'=>$userObj->name,

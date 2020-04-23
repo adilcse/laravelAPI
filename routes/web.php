@@ -24,7 +24,7 @@ Route::group(['middleware' => ['cors']], function () {
  * only authenticated user can access these APIS
  */
     Route::group(['prefix' => 'user','middleware'=>'auth'], function () {
-        Route::get('login/{uid}','UserController@getByUid');
+        Route::get('login','UserController@getByUid');
         Route::post('userRegister','UserController@store');
         Route::post('addToCart','CartController@addToCart');
         Route::post('placeOrder','OrderController@store');
