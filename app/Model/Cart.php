@@ -51,10 +51,10 @@ class Cart extends Model
      * @param item_id
      * @param quantity
      */
-    public static function updateCart($user_id,$item_id,$quantity)
+    public static function updateCart($userId,$itemId,$quantity)
     {
-        return Cart::where('user_id','=',$user_id)
-                ->where('item_id','=',$item_id)
+        return Cart::where('user_id','=',$userId)
+                ->where('item_id','=',$itemId)
                 ->update(['quantity'=>$quantity]);
     }
 }

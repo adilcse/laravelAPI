@@ -25,8 +25,8 @@ class User extends Model
 			->select('id','uid','name','email','address_id')
 			->where('users.uid',$uid)->first();
 		if($user){
-		$address_id=$user->{'address_id'};
-		if($address_id){
+		$addressId=$user->{'address_id'};
+		if($addressId){
 			$address= DB::table('address')
 				->join('indian_states','address.state_id','=','indian_states.id')
 				->select('address.name as delivery_name',
@@ -39,7 +39,7 @@ class User extends Model
 						'indian_states.name as state',
 						'address.landmark',
 						'address.locality')
-				->where('address.id',$address_id)
+				->where('address.id',$addressId)
 				->first();
 			return array_merge((array)$user,(array)$address,['error'=>false]);
 			}

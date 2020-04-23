@@ -46,7 +46,7 @@ Route::group(['middleware' => ['cors']], function () {
         Route::get('updateOrderStatus/{id}','OrderController@update');
         Route::get('deleteItems','ProductController@delete');
         Route::get('login','SellerController@login');
-        Route::get('getOrders/{per_page}','OrderController@getUserOrder');
+        Route::get('getOrders/{perPage}','OrderController@getUserOrder');
 
     });
 });

@@ -66,11 +66,11 @@ class UserController extends Controller
     /**
      * update user's address id
      */
-    public static function updateAddressid($user_id,$address_id)
+    public static function updateAddressid($userId,$addressId)
     {
         try{
-                User::where('id',$user_id)
-                ->update(['address_id'=>$address_id]);
+                User::where('id',$userId)
+                ->update(['address_id'=>$addressId]);
                 return true;
         }catch(QueryException $e){
             return null;
