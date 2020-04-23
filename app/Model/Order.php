@@ -226,12 +226,14 @@ class Order extends Model
      */
     public static function statusUpdate($id,$status)
     {
-        if($status=='DELIVERED')
+        if($status=='DELIVERED'){
             return Order::where('id',$id)
-                            ->update(['status'=>$status,'delivered_at'=>DB::raw('now()')]);
-        else
+                        ->update(['status'=>$status,'delivered_at'=>DB::raw('now()')]);
+        }
+        else{
             return Order::where('id',$id)
-                            ->update(['status'=>$status]);
+                        ->update(['status'=>$status]);
+        }
     }
 
 }

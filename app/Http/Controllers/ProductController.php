@@ -34,7 +34,8 @@ class ProductController extends Controller
         $items=Product::where('seller_id',$seller->id)->get();
         if($items){
             return response(['items'=>$items],200);
-        }else{
+        }
+        else{
             return response(['error'=>'no item found'],200);
         }
     }
@@ -49,10 +50,12 @@ class ProductController extends Controller
         $seller=Auth::user();
         try{
             $res= Product::store($seller->id,$reqData);
-            if($res)
+            if($res){
                 return response(['id'=>$res],200);
-            else
+            }
+            else{
                 return response(['error'=>'failed'],200);
+            }
         }catch(QueryException $e){
             return response(['error'=>$e],200);
         }

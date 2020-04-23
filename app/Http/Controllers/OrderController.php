@@ -21,13 +21,13 @@ class OrderController extends Controller
         try{
             //save delivery address and get address id
             $addressId=AddressController::saveAddress((array)$reqData->address,'USER');
-            if($reqData->address->updateAddress && $user->address_id)
-            {
+            if($reqData->address->updateAddress && $user->address_id){
                 UserController::updateAddressId($user->id,$addressId);
                 AddressController::deleteAddress($user->address_id);   
             }
-            else if(!$user->address_id)
+            else if(!$user->address_id){
                 UserController::updateAddressId($user->id,$addressId);
+            }
             foreach($reqData->order as $ord){
                 //place order and add address id 
                 $orderId= Order::store($ord,$addressId,$user->id);
@@ -60,8 +60,9 @@ class OrderController extends Controller
     public static function getUserOrder(Request $request,$perPage)
     {
         $from='user_id';
-        if($request->is('seller/*'))
+        if($request->is('seller/*')){
             $from='seller_id';
+        }
         $user=Auth::user();
         try{   
             //get all orders along with item dtails
@@ -85,14 +86,16 @@ class OrderController extends Controller
             $user=Auth::user();
             $order=Order::find($id);
             //return if seller is not authorized
-            if($user->id != $order->seller_id)
+            if($user->id != $order->seller_id){
                 return response(['status'=>false,'error'=>'seller id not matched'],403);
+            }
             $orderItems=Order::getItems($id);
             $reqData=json_decode($request->input('json'));
             $items=$reqData->items;
             $status=$reqData->status;
-            if(!$status)
+            if(!$status){
                 $data = Order::reject($id);
+            }
             else{
             // for partial accept calculate refund  
                 $refund_amount=0;
@@ -134,37 +137,46 @@ class OrderController extends Controller
     {
         $user=Auth::user();
         $order=Order::find($id);
-        //return if seller is not authorized $order=Order::getOrderWithItems($from,$user->id,$perPage);
-        if($user->id != $order->seller_id)
+        //return if seller is not authorized 
+        if($user->id != $order->seller_id){
             return response(['status'=>false,'error'=>'seller id not matched'],403);
+        }
         $status=$request->input('status');
         $error=false;
         //only allow limited update function
         switch($order->status){
             case 'PENDING':
-                if($status=='ACCEPTED' || $status=='CANCELLED')
+                if($status=='ACCEPTED' || $status=='CANCELLED'){
                     Order::statusUpdate($id,$status);
-                else
+                }
+                else{
                     $error=true;
+                }
             break;
             case 'ACCEPTED':
-                if($status=='OUT_FOR_DELIVERY')
+                if($status=='OUT_FOR_DELIVERY'){
                     Order::statusUpdate($id,$status);
-                else 
+                }
+                else{ 
                     $error=true;
+                }
             break;
             case 'OUT_FOR_DELIVERY':
-                if($status=='DELIVERED')
+                if($status=='DELIVERED'){
                     Order::statusUpdate($id,$status);
-                else 
+                }
+                else {
                     $error=true;
+                }
             break;
             default:
                 $error=true;
         }
-        if($error)
+        if($error){
             return response(['status'=>false,'error'=>'invalid status'],403);
-        else
-        return response(['status'=>true],200);
+        }
+        else{
+            return response(['status'=>true],200);
+        }
     }
 } 

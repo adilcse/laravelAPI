@@ -34,19 +34,19 @@ class User extends Model
 		$addressId=$user->{'address_id'};
 		if($addressId){
 			$address= DB::table('address')
-				->join('indian_states','address.state_id','=','indian_states.id')
-				->select('address.name as delivery_name',
-						'address.pin',
-						'address.lat',
-						'address.lng',
-						'address.number',
-						'address.city',
-						'address.state_id',
-						'indian_states.name as state',
-						'address.landmark',
-						'address.locality')
-				->where('address.id',$addressId)
-				->first();
+					->join('indian_states','address.state_id','=','indian_states.id')
+					->select('address.name as delivery_name',
+							'address.pin',
+							'address.lat',
+							'address.lng',
+							'address.number',
+							'address.city',
+							'address.state_id',
+							'indian_states.name as state',
+							'address.landmark',
+							'address.locality')
+					->where('address.id',$addressId)
+					->first();
 			return array_merge((array)$user,(array)$address,['error'=>false]);
 			}
 			else{
@@ -58,4 +58,3 @@ class User extends Model
 		}
 	}
 }
-

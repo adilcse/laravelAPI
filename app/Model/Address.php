@@ -30,10 +30,12 @@ class Address extends Model
                     'address.landmark',
                     'address.locality')
             ->find($address_id);
-        if($address)
+        if($address){
             return (array)$address->original;
-        else 
+        }
+        else {
             return false;
+        }
     }
     /**
      * store new address to database

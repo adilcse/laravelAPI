@@ -29,10 +29,12 @@ class AddressController extends Controller
 	public static function saveAddress($address,$type='USER')
 	{
 		// check if latitude and longitude is valid
-		if(!is_double($address['lat']))
+		if(!is_double($address['lat'])){
 			unset($address['lat']);
-			if(!is_double($address['lng']))
+		}
+		if(!is_double($address['lng'])){
 			unset($address['lng']);
+		}
 		try{
 			return Address::store($address,$type);
 		}
