@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\User;
 use Illuminate\Database\QueryException;
-use App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 /**
  * user's controller handle user's CURD operation
@@ -66,7 +65,7 @@ class UserController extends Controller
         return response($content,$status);
     }
 
-    
+
     /**
      * update user's address id
      */

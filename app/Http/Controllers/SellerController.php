@@ -5,7 +5,6 @@ use App\Model\Seller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
-use App\Http\Controllers;
 /**
  * handle seller API calls
  */
@@ -72,7 +71,7 @@ class SellerController extends Controller
 		return response($result,$code);
 	}
 
-	
+
 	/**
 	 * seller login, verify id and returns selelr details
 	 */

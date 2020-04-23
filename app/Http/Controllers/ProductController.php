@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\Product;
 use Illuminate\Database\QueryException;
-use App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 /**
  * handle product related api calls
@@ -79,7 +78,7 @@ class ProductController extends Controller
         } 
     }
 
-    
+
     /**
      * delete a product by authorized seller
      */

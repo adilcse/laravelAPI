@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\Order;
-use App\Providers\GenerateToken;
 use Illuminate\Database\QueryException;
-use App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 /**
  * Order controller handle all order CURD calls  
@@ -42,8 +40,9 @@ class OrderController extends Controller
             }
             $from=$reqData->from;
             //clear cart after order placed
-            if('cart' === $from)
+            if('cart' === $from){
                 CartController::emptyUserCart($user->id);
+            }
         return response(['status'=>'success'],200);
         }
         catch(QueryException $e){
@@ -127,7 +126,7 @@ class OrderController extends Controller
         }
     }
 
-    
+
     /**
      * update an order status by seller
      */

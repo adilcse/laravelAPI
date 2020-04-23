@@ -91,7 +91,7 @@ class CartController extends Controller
     public static function emptyUserCart($userId)
     {
         try{
-        return Cart::where('userId',$userId)->delete();
+        return Cart::where('user_id',$userId)->delete();
         }
         catch(QueryException $e){
             return false;
