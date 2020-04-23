@@ -58,12 +58,15 @@ class AddressController extends Controller
 	{
 		$address=(array)json_decode($request->input('json'));
 		$user=Auth::user();
-		$old_address=$user->address_id;
+		$oldAddress=$user->addressId;
 		try{
+			//save new address in database
 			$id = AddressController::saveAddress($address);
 			if($id){
+				//update addres id in user's table
 				UserController::updateAddressid($user->id,$id);
-				$delete=AddressController::deleteAddress($old_address);
+				//try to delete the old address if it is not linked with any order
+				$delete=AddressController::deleteAddress($oldAddress);
 				return response(['status'=>'success','delete'=>$delete],200);
 			}else{
 				return response(['error'=>'address can not updated'],200);

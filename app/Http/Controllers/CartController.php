@@ -16,6 +16,7 @@ class CartController extends Controller
     public static function getUserCart($id)
     {   
         $cartItems= Cart::getCartItems($id);
+        //calculate selling price after discount for each item
         foreach($cartItems as $key=>$value){
             $value['MRP']=$value["price"];
             $value['price']=$value['price'] - floor($value['price'] * $value['discount']/100);
@@ -23,6 +24,7 @@ class CartController extends Controller
         }
         return $cartItems;    
     }
+
     /**
      * add item to user's cart and return the cart id
      */
@@ -30,29 +32,29 @@ class CartController extends Controller
     {
         $reqData=(array)json_decode($request->input('json'));
         $userObj = Auth::user();
-        $id= $userObj->id;
+        $id = $userObj->id;
         try{
-            $reqData=array_merge($reqData,['user_id'=>$id]);  
+            $reqData=array_merge($reqData,['userId'=>$id]);  
             $result= Cart::addItem($reqData);
             return response(['cart_id'=>$result],200);
         }catch(Exception $e){
             return response($e,403);
         }
-
     }
+
     /**
      * remove any item from cart by item id
      * @param item_id for item to remove
      * @return true,false if success or failed to remove
      */
-    public static function removeFromCart($item_id)
+    public static function removeFromCart($itemId)
     {
         $userObj = Auth::user();
         $id= $userObj->id;
         try{
-            $res = Cart::where('user_id','=',$id)
-            ->where('item_id','=',$item_id)
-            ->delete();
+            $res = Cart::where('userId','=',$id)
+                        ->where('item_id','=',$itemId)
+                        ->delete();
             return response(['status'=>$res],200);
         }
         catch(QueryException $e){
@@ -67,9 +69,9 @@ class CartController extends Controller
 
         $reqData=(array)json_decode($request->input('json'));
         $userObj = Auth::user();
-        $user_id= $userObj->id;
+        $userId= $userObj->id;
         try{
-            $content= Cart::updateCart($user_id,$reqData['item_id'],$reqData['quantity']);
+            $content= Cart::updateCart($userId,$reqData['item_id'],$reqData['quantity']);
             return response(['status'=>$content],200);
         }catch(QueryException $e)
         {
@@ -79,12 +81,12 @@ class CartController extends Controller
     }
     /**
      * clear user's cart by user id
-     * @param user_id id of user whose cart is to be cleared
+     * @param userId id of user whose cart is to be cleared
      */
-    public static function emptyUserCart($user_id)
+    public static function emptyUserCart($userId)
     {
         try{
-        return Cart::where('user_id',$user_id)->delete();
+        return Cart::where('userId',$userId)->delete();
         }
         catch(QueryException $e){
             return false;

@@ -24,3 +24,7 @@ order only accepted if enough stock available .
 
 ## Contribution
 [Adil Hussain](https://github.com/adilcse/)
+
+## case
+variable name = camelCase
+database column name = snake case

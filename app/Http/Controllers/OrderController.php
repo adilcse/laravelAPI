@@ -22,21 +22,21 @@ class OrderController extends Controller
         $reqData=json_decode($request->input('json'));
         try{
             //save delivery address and get address id
-            $address_id=AddressController::saveAddress((array)$reqData->address,'USER');
-            if($reqData->address->updateAddress && $user->address_id)
+            $addressId=AddressController::saveAddress((array)$reqData->address,'USER');
+            if($reqData->address->updateAddress && $user->addressId)
             {
-                UserController::updateAddressId($user->id,$address_id);
-                AddressController::deleteAddress($user->address_id);   
+                UserController::updateAddressId($user->id,$addressId);
+                AddressController::deleteAddress($user->addressId);   
             }
-            else if(!$user->address_id)
-                UserController::updateAddressId($user->id,$address_id);
+            else if(!$user->addressId)
+                UserController::updateAddressId($user->id,$addressId);
             foreach($reqData->order as $ord){
                 //place order and add address id 
-                $order_id= Order::store($ord,$address_id,$user->id);
-                if($order_id){
+                $orderId= Order::store($ord,$addressId,$user->id);
+                if($orderId){
                     //store items in order item table of an order
                     foreach($ord->items as $item){
-                        Order::storeOrderItem($order_id,$item);
+                        Order::storeOrderItem($orderId,$item);
                     }
                 }
             }
@@ -56,14 +56,15 @@ class OrderController extends Controller
      * @param order per page
      * @retun order
      */
-    public static function getUserOrder(Request $request,$per_page)
+    public static function getUserOrder(Request $request,$perPage)
     {
         $from='user_id';
         if($request->is('seller/*'))
             $from='seller_id';
         $user=Auth::user();
         try{   
-            $order=Order::getOrderWithItems($from,$user->id,$per_page);
+            //get all orders along with item dtails
+            $order=Order::getOrderWithItems($from,$user->id,$perPage);
             return response(['order'=>$order],200);
         }
         catch(QueryException $e){
@@ -73,7 +74,7 @@ class OrderController extends Controller
     /**
      * seller accept or reject an order 
      * @param Request
-     * @param order_id
+     * @param orderId
      */
     public function acceptReject(Request $request,$id)
     {
@@ -83,7 +84,7 @@ class OrderController extends Controller
             //return if seller is not authorized
             if($user->id != $order->seller_id)
                 return response(['status'=>false,'error'=>'seller id not matched'],403);
-            $order_items=Order::getItems($id);
+            $orderItems=Order::getItems($id);
             $reqData=json_decode($request->input('json'));
             $items=$reqData->items;
             $status=$reqData->status;
@@ -92,27 +93,28 @@ class OrderController extends Controller
             else{
             // for partial accept calculate refund  
                 $refund_amount=0;
-                $rejected_items=0;
+                $rejectedItems=0;
                 foreach($items as $item){
-                    $search_item = null;
-                    foreach($order_items as $struct) {
+                    $searchItem = null;
+                    foreach($orderItems as $struct) {
                         if ($item->id == $struct->item_id) {
-                            $search_item = $struct;
+                            $searchItem = $struct;
                             break;
                         }    
                     }
-                    if($search_item){
-                        if($item->accept!=$search_item->accept){
+                    if($searchItem){
+                        if($item->accept!=$searchItem->accept){
                         Order::updateOrderItem($item->id,$id,$item->accept);
                         }
+                        //calculate refund amount
                         if(!$item->accept){
-                            $refund_amount+=$search_item->price*$search_item->quantity;
-                            $rejected_items++;
+                            $refund_amount+=$searchItem->price*$searchItem->quantity;
+                            $rejectedItems++;
                             }
                         }   
                     }
                     //accept order
-                $data=Order::accept($id,$refund_amount,$rejected_items);
+                $data=Order::accept($id,$refund_amount,$rejectedItems);
                 }    
                 return response(['status'=>true,'data'=>$data],200);
         }
@@ -127,7 +129,7 @@ class OrderController extends Controller
     {
         $user=Auth::user();
         $order=Order::find($id);
-        //return if seller is not authorized $order=Order::getOrderWithItems($from,$user->id,$per_page);
+        //return if seller is not authorized $order=Order::getOrderWithItems($from,$user->id,$perPage);
         if($user->id != $order->seller_id)
             return response(['status'=>false,'error'=>'seller id not matched'],403);
         $status=$request->input('status');
