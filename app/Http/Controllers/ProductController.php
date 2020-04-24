@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Model\Product;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
+use Log;
 /**
  * handle product related api calls
  */
@@ -66,10 +67,33 @@ class ProductController extends Controller
      * update a product details by seller
      * only authorized seller can update details
      */
-    public static function update(Request $request,$id)
+    public static function update(Request $request)
     {
         $reqData=(array)json_decode($request->input('json'));
         $seller=Auth::user();
+        $id=$reqData['item_id'];
+        unset($reqData['item_id']);
+        foreach($reqData as $key=>$value){
+            switch($key){
+                case 'discount':
+                    if($value>100 || $value<0){
+                        return response(['error'=>true,'message'=>'invalid discount'],406);
+                    }
+                break;
+                case 'price':
+                    if($value<0){
+                        return response(['error'=>true,'message'=>'invalid price'],406);
+                    }
+                break;
+                case 'stock':
+                    if($value<0){
+                        return response(['error'=>true,'message'=>'invalid stock'],406);
+                    }
+                break;
+                default:
+                return response(['error'=>true,'message'=>'invalid update'],406);
+            }
+        }
         try{
         $up=Product::where('id',$id)
                 ->where('seller_id',$seller->id)

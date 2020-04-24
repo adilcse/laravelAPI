@@ -25,7 +25,7 @@ Route::group(['middleware' => ['cors']], function () {
  */
     Route::group(['prefix' => 'user','middleware'=>'auth'], function () {
         Route::get('login','UserController@getByUid');
-        Route::post('userRegister','UserController@store');
+        Route::post('register','UserController@store');
         Route::post('addToCart','CartController@addToCart');
         Route::post('placeOrder','OrderController@store');
         Route::get('getOrders/{per_page}','OrderController@getUserOrder');
@@ -41,7 +41,7 @@ Route::group(['middleware' => ['cors']], function () {
         Route::get('getItems','ProductController@getSellerItems');
         Route::post('register','SellerController@register');
         Route::post('addItem','ProductController@store');
-        Route::post('updateItem/{id}','ProductController@update');
+        Route::post('updateItem','ProductController@update');
         Route::post('orderAcceptReject/{id}','OrderController@acceptReject');
         Route::get('updateOrderStatus/{id}','OrderController@update');
         Route::get('deleteItems','ProductController@delete');

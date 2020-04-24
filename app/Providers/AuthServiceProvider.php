@@ -42,7 +42,7 @@ class AuthServiceProvider extends ServiceProvider
                     $verifiedIdToken = $this->auth->verifyIdToken($token);
                     $uid = $verifiedIdToken->getClaim('sub');
                     if($request->is('user/*')){
-                        if($request->is('user/userRegister')){
+                        if($request->is('user/register')){
                             $reqData=json_decode($request->input('json'));
                             if($uid===$reqData->uid)
                                 return true;

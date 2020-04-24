@@ -20,16 +20,16 @@ class UserController extends Controller
             $id=User::store($reqData);
             if($id){
                 $status=200;
-                $content=['id'=>$id];
+                $content=['id'=>$id,'error'=>false];
                 return response($content, $status);                              
             }
             else{
                 $status= 404;
-                $error=['error'=>'user not registered'];
+                $error=['error'=>true,'message'=>'user register failed'];
                 return response($error, $status);
         }                              
         }catch(QueryException $ex){ 
-            $error=['type'=>'user not registered'];
+            $error=['error'=>true,'message'=>'user register failed'];
             $status= 422;
             return response($ex, $status);
         }
@@ -56,10 +56,10 @@ class UserController extends Controller
         try{
             $address = AddressController::getUserAddress($user['address_id']);
             $userCart = CartController::getUserCart($user['id']);
-            $content=['user'=>$user,'address'=>$address,'cart'=>$userCart];
+            $content=['error'=>false,'user'=>$user,'address'=>$address,'cart'=>$userCart];
         }
         catch(Exception $e){
-            $content=['error'=>$e];
+            $content=['error'=>true,'message'=>$e->getMessage()];
             $status=403;
         }
         return response($content,$status);
