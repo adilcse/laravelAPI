@@ -34,10 +34,10 @@ class ProductController extends Controller
         $seller=Auth::user();
         $items=Product::where('seller_id',$seller->id)->get();
         if($items){
-            return response(['items'=>$items],200);
+            return response(['error'=>false,'items'=>$items],200);
         }
         else{
-            return response(['error'=>'no item found'],200);
+            return response(['error'=>true,'message'=>'no item found'],200);
         }
     }
 
@@ -52,13 +52,13 @@ class ProductController extends Controller
         try{
             $res= Product::store($seller->id,$reqData);
             if($res){
-                return response(['id'=>$res],200);
+                return response(['error'=>false,'id'=>$res],200);
             }
             else{
-                return response(['error'=>'failed'],200);
+                return response(['error'=>true,'message'=>'failed'],200);
             }
         }catch(QueryException $e){
-            return response(['error'=>$e],200);
+            return response(['error'=>true,'message'=>$e],200);
         }
     }
 
@@ -98,10 +98,10 @@ class ProductController extends Controller
         $up=Product::where('id',$id)
                 ->where('seller_id',$seller->id)
                 ->update($reqData); 
-        return response(['status'=>$up],200);
+        return response(['error'=>false,'status'=>$up],200);
         }
         catch(QueryException $e){
-            return response(['error'=>$e],200);
+            return response(['error'=>true,'message'=>$e],200);
         } 
     }
 
@@ -118,10 +118,10 @@ class ProductController extends Controller
         $status=Product::where('seller_id',$seller->id)
                 ->whereIn('id',$ids)
                 ->delete();
-        return response(['status'=>$status],200);
+        return response(['error'=>false,'status'=>$status],200);
         }
         catch(QueryException $e){
-            return response(['error'=>$e],200);
+            return response(['error'=>true,'message'=>$e],200);
         }
     }
 }

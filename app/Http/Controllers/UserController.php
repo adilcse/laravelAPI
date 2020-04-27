@@ -43,6 +43,7 @@ class UserController extends Controller
      */
     public function getByUid()
     {
+        
         $userObj = Auth::user();
         $user= ['name'=>$userObj->name,
                 'email'=>$userObj->email,
@@ -62,6 +63,7 @@ class UserController extends Controller
             $content=['error'=>true,'message'=>$e->getMessage()];
             $status=403;
         }
+        
         return response($content,$status);
     }
 

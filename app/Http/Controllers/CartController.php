@@ -37,9 +37,9 @@ class CartController extends Controller
         try{
             $reqData=array_merge($reqData,['userId'=>$id]);  
             $result= Cart::addItem($reqData);
-            return response(['cart_id'=>$result],200);
+            return response(['error'=>false,'cart_id'=>$result],200);
         }catch(Exception $e){
-            return response($e,403);
+            return response(['error'=>true,'message'=>$e],403);
         }
     }
 
@@ -57,10 +57,10 @@ class CartController extends Controller
             $res = Cart::where('userId','=',$id)
                         ->where('item_id','=',$itemId)
                         ->delete();
-            return response(['status'=>$res],200);
+            return response(['error'=>false,'status'=>$res],200);
         }
         catch(QueryException $e){
-            return response(['status'=>$e],403);
+            return response(['error'=>true,'status'=>$e],403);
         }
     }
 
@@ -76,10 +76,10 @@ class CartController extends Controller
         $userId= $userObj->id;
         try{
             $content= Cart::updateCart($userId,$reqData['item_id'],$reqData['quantity']);
-            return response(['status'=>$content],200);
+            return response(['error'=>false,'status'=>$content],200);
         }catch(QueryException $e)
         {
-            return response(['error'=>$e],403);
+            return response(['error'=>true,'message'=>$e],403);
         }   
     }
 

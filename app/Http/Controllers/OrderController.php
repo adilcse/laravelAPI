@@ -43,10 +43,10 @@ class OrderController extends Controller
             if('cart' === $from){
                 CartController::emptyUserCart($user->id);
             }
-        return response(['status'=>'success'],200);
+        return response(['error'=>false,'status'=>'success'],200);
         }
         catch(QueryException $e){
-            return response(['error'=>$e],403);
+            return response(['error'=>true,'message'=>$e],403);
         }
     }
 
@@ -67,10 +67,10 @@ class OrderController extends Controller
         try{   
             //get all orders along with item dtails
             $order=Order::getOrderWithItems($from,$user->id,$perPage);
-            return response(['order'=>$order],200);
+            return response(['error'=>false,'order'=>$order],200);
         }
         catch(QueryException $e){
-            return response(['error'=>$e],403);
+            return response(['error'=>true,'message'=>$e],403);
         }
     }
 
@@ -87,7 +87,7 @@ class OrderController extends Controller
             $order=Order::find($id);
             //return if seller is not authorized
             if($user->id != $order->seller_id){
-                return response(['status'=>false,'error'=>'seller id not matched'],403);
+                return response(['error'=>true,'message'=>'seller id not matched'],403);
             }
             $orderItems=Order::getItems($id);
             $reqData=json_decode($request->input('json'));
@@ -122,10 +122,10 @@ class OrderController extends Controller
                     //accept order
                 $data=Order::accept($id,$refund_amount,$rejectedItems);
                 }    
-                return response(['status'=>true,'data'=>$data],200);
+                return response(['error'=>false,'data'=>$data],200);
         }
         catch(Exception $e){
-            return response(['status'=>false,'error'=>$e],200);
+            return response(['error'=>true,'message'=>$e],200);
         }
     }
 
@@ -139,7 +139,7 @@ class OrderController extends Controller
         $order=Order::find($id);
         //return if seller is not authorized 
         if($user->id != $order->seller_id){
-            return response(['status'=>false,'error'=>'seller id not matched'],403);
+            return response(['error'=>true,'message'=>'seller id not matched'],403);
         }
         $status=$request->input('status');
         $error=false;
@@ -173,10 +173,10 @@ class OrderController extends Controller
                 $error=true;
         }
         if($error){
-            return response(['status'=>false,'error'=>'invalid status'],403);
+            return response(['error'=>true,'message'=>'invalid status'],403);
         }
         else{
-            return response(['status'=>true],200);
+            return response(['error'=>false],200);
         }
     }
 } 

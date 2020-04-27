@@ -15,10 +15,10 @@ class CatagoryController extends Controller
 	{
 		try{
 			$content=Catagory::getAllCatagory();
-			return response(['catagory'=>$content],200);
+			return response(['error'=>false,'catagory'=>$content],200);
 		}
 		catch(QueryException $e){
-			return response(['error'=>$e],200);
+			return response(['error'=>true,'message'=>$e],200);
 		}
 	}
 }

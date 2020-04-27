@@ -35,6 +35,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->app['auth']->viaRequest('api', function ($request) {
             $token=$request->input('api_token');
+            //$token=$request->header('api_token');
             if ($token) { 
                 $verifiedIdToken=null;
                 try {

@@ -75,13 +75,13 @@ class AddressController extends Controller
 				UserController::updateAddressid($user->id,$id);
 				//try to delete the old address if it is not linked with any order
 				$delete=AddressController::deleteAddress($oldAddress);
-				return response(['status'=>'success','delete'=>$delete],200);
+				return response(['error'=>false,'delete'=>$delete],200);
 			}else{
-				return response(['error'=>'address can not updated'],200);
+				return response(['error'=>true,'message'=>'address can not updated'],200);
 			}
 		}
 		catch(QueryException $e){
-			return response(['error'=>$e],403);
+			return response(['error'=>true,'message'=>$e],403);
 		}
 	}
 	

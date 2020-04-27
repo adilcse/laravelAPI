@@ -4,8 +4,41 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e565456087cf98a40655f3db840d3955",
+    "content-hash": "92115f0f6315df54df94c6671af6c281",
     "packages": [
+        {
+            "name": "abellion/laravel-cors",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/abellion/laravel-cors.git",
+                "reference": "0d6c610e0d91a6de2ebf43d90d02c7706076a639"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/abellion/laravel-cors/zipball/0d6c610e0d91a6de2ebf43d90d02c7706076a639",
+                "reference": "0d6c610e0d91a6de2ebf43d90d02c7706076a639",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Abellion\\Cors\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Antoine Bellion",
+                    "email": "antoinebellion@msn.com"
+                }
+            ],
+            "description": "Adds CORS (Cross-Origin Resource Sharing) headers support in your Laravel application",
+            "time": "2016-10-10T10:23:12+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.8.14",
