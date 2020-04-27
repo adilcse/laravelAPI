@@ -42,7 +42,7 @@ Route::group(['middleware' => ['cors']], function () {
         Route::post('register','SellerController@register');
         Route::post('addItem','ProductController@store');
         Route::post('updateItem','ProductController@update');
-        Route::post('orderAcceptReject/{id}','OrderController@acceptReject');
+        Route::post('orderAcceptReject','OrderController@acceptReject');
         Route::get('updateOrderStatus/{id}','OrderController@update');
         Route::get('deleteItems','ProductController@delete');
         Route::get('login','SellerController@login');

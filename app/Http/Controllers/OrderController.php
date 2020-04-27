@@ -80,9 +80,11 @@ class OrderController extends Controller
      * @param Request
      * @param orderId
      */
-    public function acceptReject(Request $request,$id)
+    public function acceptReject(Request $request)
     {
         try{
+            $reqData=json_decode($request->input('json'));
+            $id=$reqData->id;
             $user=Auth::user();
             $order=Order::find($id);
             //return if seller is not authorized
@@ -90,7 +92,6 @@ class OrderController extends Controller
                 return response(['error'=>true,'message'=>'seller id not matched'],403);
             }
             $orderItems=Order::getItems($id);
-            $reqData=json_decode($request->input('json'));
             $items=$reqData->items;
             $status=$reqData->status;
             if(!$status){
