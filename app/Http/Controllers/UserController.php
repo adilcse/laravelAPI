@@ -17,10 +17,10 @@ class UserController extends Controller
     {
         $reqData=(array)json_decode($request->input('json'));
         try{
-            $id=User::store($reqData);
+            $st=User::store($reqData);
             if($id){
                 $status=200;
-                $content=['id'=>$id,'error'=>false];
+                $content=['registered'=>$st,'error'=>false];
                 return response($content, $status);                              
             }
             else{

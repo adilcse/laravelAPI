@@ -30,7 +30,7 @@ order only accepted if enough stock available .
 
     Takes no arguments and returns with an array of catagory available for the products
 
-    response structure:
+    **response structure:**
     {
 
         error: boolean,
@@ -60,40 +60,24 @@ order only accepted if enough stock available .
     takes user's latitude longitude and radius under which seller to be fetched and 
     returns seller details along wth available products
     
-    response structure:
+    **response structure:**
     ```
     {
-
         error: boolean,
-
         seller:array(distance: number,
-
                     shop_name: string,
-
                     email: string,
-
                     id: number,
-
                     seller_name: string,
-
                     pin: number,
-
                     lat: number,
-
                     lng: number,
-
                     number: number,
-
                     city: string,
-
                     state: string,
-
                     landmark: string,
-
                     locality: string
-
                     ),
-
         products:array(id: number,
                         seller_id: number,
                         name: string,
@@ -109,6 +93,107 @@ order only accepted if enough stock available .
                         )
     }
     ```
+3. user/login
+
+    params:
+    api_token: string
+
+    request method : GET
+
+    verifies the API token and get user id and fetch user details from database if user found
+    then returns user details along with user's cart
+
+    **responst structure:**
+    Success response:
+    ```
+    {
+        error: false,
+        user:{ 
+            id: number
+            name: string
+            email: string
+            user_type: string
+            uid: string
+            address_id: number
+        },
+        address: {
+            id: number,
+            name: string,
+            pin: string
+            lat: number
+            lng: number
+            number: number
+            address: string
+            formatted_address: string
+            city: string
+            state: string
+            landmark: string
+            locality: string
+        },
+        cart: array(
+            {
+                cart_id: number
+                item_id: number
+                quantity: number
+                added_at: datetime
+                name: string
+                image: url
+                price: number
+                discount: number
+                seller_id: number
+                stock: number
+                MRP: number
+            }
+        )
+    }
+    ```
+
+    Failed response:
+    ```
+    {
+        error:true,
+        message:string
+    }
+    ```
+
+4. user/register
+
+    params:
+
+        api_token:string
+    
+    request method:POST
+
+    register a new user and store user's details in database
+    first register user with firebase auth and then sent api token with user id to store in database
+
+    **request structure:**
+    ```
+    {
+        json:{
+            name:string,
+            uid:string,
+            email:string
+        }
+    }
+    ```
+
+    **response structure:**
+    Success response:
+    ```
+    {
+        registered:boolean,
+        error:false
+    }
+    ```
+    Failed response:
+    ```
+    {
+        error:true,
+        message:string
+    }
+    ```
+
 ## Contribution
 [Adil Hussain](https://github.com/adilcse/)
 
