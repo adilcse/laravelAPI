@@ -77,7 +77,7 @@ $app->configure('app');
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
-    'cors'=>  App\Http\Middleware\HandleCors::class,
+    'cors'=>  Nord\Lumen\Cors\CorsMiddleware::class,
 ]);
 
 /*
@@ -95,6 +95,7 @@ $app->routeMiddleware([
     $app->register(Kreait\Laravel\Firebase\ServiceProvider::class);
     $app->register(App\Providers\AuthServiceProvider::class);
     $app->register(App\Providers\GenerateToken::class);
+    $app->register(Nord\Lumen\Cors\CorsServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*

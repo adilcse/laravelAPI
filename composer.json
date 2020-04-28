@@ -12,7 +12,8 @@
         "google/protobuf": "^v3.3.0",
         "grpc/grpc": "^v1.27.0",
         "kreait/laravel-firebase": "^2.0",
-        "laravel/lumen-framework": "^7.0"
+        "laravel/lumen-framework": "^7.0",
+        "nordsoftware/lumen-cors": "^3.3"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.9.1",
