@@ -30,7 +30,7 @@ order only accepted if enough stock available .
 
     Takes no arguments and returns with an array of catagory available for the products
 
-    **response structure:**
+    response structure:
     {
 
         error: boolean,
@@ -48,20 +48,17 @@ order only accepted if enough stock available .
 ### 2. nearbySellers
 
     params:
-
         lat:number,
-
         lng:number,
-
         radius:number
-    
+
     request method: GET
 
     takes user's latitude longitude and radius under which seller to be fetched and 
     returns seller details along wth available products
     
-    **response structure:**
-    ```
+    response structure:
+    
     {
         error: boolean,
         seller:array(distance: number,
@@ -92,7 +89,7 @@ order only accepted if enough stock available .
                         MRP: number,
                         )
     }
-    ```
+    
 ### 3. user/login
 
     params:
@@ -103,10 +100,10 @@ order only accepted if enough stock available .
     verifies the API token and get user id and fetch user details from database if user found
     then returns user details along with user's cart
 
-    **responst structure:**
+    responst structure:
 
     Success response:
-    ```
+    
     {
         error: false,
         user:{ 
@@ -147,15 +144,15 @@ order only accepted if enough stock available .
             }
         )
     }
-    ```
+    
 
     Failed response:
-    ```
+    
     {
         error:true,
         message:string
     }
-    ```
+    
 
 ### 4. user/register
 
@@ -168,8 +165,8 @@ order only accepted if enough stock available .
     register a new user and store user's details in database
     first register user with firebase auth and then sent api token with user id to store in database
 
-    **request structure:**
-    ```
+    request structure:
+    
     {
         json:{
             name:string,
@@ -177,24 +174,24 @@ order only accepted if enough stock available .
             email:string
         }
     }
-    ```
+    
 
-    **response structure:**
+    response structure:
 
     Success response:
-    ```
+    
     {
         registered:boolean,
         error:false
     }
-    ```
+    
     Failed response:
-    ```
+    
     {
         error:true,
         message:string
     }
-    ```
+    
 ### 5. user/addToCart
 
     params:
@@ -205,33 +202,33 @@ order only accepted if enough stock available .
 
     add selected item and quantity to user's cart
 
-    **request structure:**
-    ```
+    request structure:
+    
     {
         json: {
             item_id:number,
             quantity:number
         }
     }
-    ```
+    
 
-    **response structure:**
+    response structure:
 
     Success response:
-    ```
+    
     {
         error: false
         cart_id: number
     }
-    ```
+    
     Failed response;
 
-    ```
+    
     {
         error:true,
         message:string
     }
-    ```
+    
 
 ### 6. user/placeOrder
 
@@ -243,8 +240,8 @@ order only accepted if enough stock available .
 
     places users order to the seller 
 
-    **request structure:**
-    ```
+    request structure:
+    
     {
         json: {
                 order:array(
@@ -284,27 +281,26 @@ order only accepted if enough stock available .
                 from:string
             }
     }
-    ```
 
-    **response structure:**
+    response structure:
 
     Success response:
-    ```
+    
     {
         error: false
         status: string
     }
-    ```
+    
 
     Failed response:
-    ```
+    
     {
         error:true,
         message:string
     }
-    ```
-
     
+
+
 
 ## Contribution
 [Adil Hussain](https://github.com/adilcse/)
