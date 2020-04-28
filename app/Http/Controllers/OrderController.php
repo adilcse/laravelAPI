@@ -123,7 +123,7 @@ class OrderController extends Controller
                     //accept order
                 $data=Order::accept($id,$refund_amount,$rejectedItems);
                 }    
-                return response(['error'=>false,'data'=>$data],200);
+                return response(['error'=>false,'status'=>$data],200);
         }
         catch(Exception $e){
             return response(['error'=>true,'message'=>$e],200);

@@ -35,7 +35,7 @@ class CartController extends Controller
         $userObj = Auth::user();
         $id = $userObj->id;
         try{
-            $reqData=array_merge($reqData,['userId'=>$id]);  
+            $reqData=array_merge($reqData,['user_id'=>$id]);  
             $result= Cart::addItem($reqData);
             return response(['error'=>false,'cart_id'=>$result],200);
         }catch(Exception $e){
@@ -54,7 +54,7 @@ class CartController extends Controller
         $userObj = Auth::user();
         $id= $userObj->id;
         try{
-            $res = Cart::where('userId','=',$id)
+            $res = Cart::where('user_id','=',$id)
                         ->where('item_id','=',$itemId)
                         ->delete();
             return response(['error'=>false,'status'=>$res],200);

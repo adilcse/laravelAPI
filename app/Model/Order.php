@@ -172,10 +172,10 @@ class Order extends Model
                     ->update(['confirmed'=>0]);
             }
         }
-        Order::where('id',$id)
-        ->update(['status'=>'ACCEPTED',
-                'refund_amount'=>$refund,
-                'rejected_items'=>$reject]);
+        return Order::where('id',$id)
+                ->update(['status'=>'ACCEPTED',
+                        'refund_amount'=>$refund,
+                        'rejected_items'=>$reject]);
     }
 
 
