@@ -32,16 +32,27 @@ order only accepted if enough stock available .
 
     response structure:
     {
+
         error: boolean,
+
         caragory: array(
+
                         id:number,
+
                         name:string
+
                         )
+
     }
+
 2. nearbySellers
+
     params:
+
         lat:number,
+
         lng:number,
+
         radius:number
     
     request method: GET
@@ -50,35 +61,65 @@ order only accepted if enough stock available .
     returns seller details along wth available products
     
     response structure:
+
     {
+
         error: boolean,
+
         seller:array(distance: number,
+
                     shop_name: string,
+
                     email: string,
+
                     id: number,
+
                     seller_name: string,
+
                     pin: number,
+
                     lat: number,
+
                     lng: number,
+
                     number: number,
+
                     city: string,
+
                     state: string,
+
                     landmark: string,
+
                     locality: string
+
                     ),
+
         products:array(id: number,
+
                         seller_id: number,
+
                         name: string,
+
                         description: string,
+
                         image: url,
+
                         price: number,
+
                         discount: number,
+
                         stock: number,
+
                         catagory_id: number,
+
                         created_at: date,
+
                         updated_at: date,
+
                         MRP: number,
+
                         )
+                        
     }
 ## Contribution
 [Adil Hussain](https://github.com/adilcse/)
