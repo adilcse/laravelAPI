@@ -249,33 +249,33 @@ order only accepted if enough stock available .
                         seller_id:number,
                         items:array(
                             {
-                                id:number,
-                                quantity:number,
-                                price:number,
+                                id:number
+                                quantity:number
+                                price:number
                                 confirmed:boolean
                             }
                         ),
                         total:{
-                            total:number,
-                            itemCount:number,
+                            total:number
+                            itemCount:number
                             deliveryCharges:number
                         },
-                        paymentMode:string,
+                        paymentMode:string
                         status:string
                     }
                 ),
                 address:{
-                    name:string,
-                    number:number,
-                    locality:string,
-                    pin:number,
-                    address:string,
-                    city:string,
-                    state:string,
-                    landmark:string,
-                    alternate:number,
-                    lat:number,
-                    lng:number,
+                    name:string
+                    number:number
+                    locality:string
+                    pin:number
+                    address:string
+                    city:string
+                    state:string
+                    landmark:string
+                    alternate:number
+                    lat:number
+                    lng:number
                     updateAddress:boolean
                 },
                 from:string
@@ -298,13 +298,149 @@ order only accepted if enough stock available .
         error:true,
         message:string
     }
+
+### 7.  user/getOrders/{per_page}
+
+    params:
+        page:number,
+        api_token:string
+
+    request method: GET
+
+    get all orders of a user by verifying access token
+
+    response structure:
+
+    Success response:
+
+    {
+        error: false,
+        order: array(
+            {
+                id: number
+                seller_id: number
+                user_id: number
+                status: string
+                payment_mode: string
+                total_amount: number
+                refund_amount: number
+                delivery_amount: number
+                total_items: number
+                rejected_items: number
+                delivered_at: datetime
+                address_id: number
+                created_at: datetime
+                updated_at: datetime
+                order_id: number
+                seller_name: string
+            },
+            items: array(
+                {
+                    name: string
+                    id: number
+                    image: url
+                    quantity: number
+                    price: number
+                    accept: boolean
+                }
+            ),
+            delivery_address: {
+                    name: string
+                    number: number
+                    address: string
+                    locality: string
+                    landmark: string
+                    city: string
+                    pin: number
+                    lat: number
+                    lng: number
+                }
+        )
+    }
+
+    Failed response:
+    {
+        error:true
+        message:string
+    }
     
+### 8. user/updateAddress
 
+    params:
+        api_token:string
 
+    request method: POST
 
+    update user's address
+
+    request structure:
+
+    {
+        json: {
+            name:string
+            number:number
+            locality:string
+            pin:number
+            address:string
+            city:string
+            state:string
+            landmark:string
+            alternate:number
+            lat:number
+            lng:number
+            updateAddress:boolean   
+        }
+    }
+
+    response structure:
+    {
+        error: boolean
+        delete: boolean
+    }
+
+### 9. user/removeFromCart/{id}/delete
+
+    params:
+        api_token:string
+
+    request method: GET
+
+    Delete an item from user's cart whose id is specified
+
+    response structue:
+    {
+        error: boolean
+        status: number
+    }
+
+### 10. user/updateCart
+
+    params:
+        api_token:string
+
+    request method: POST
+
+    Update item quantity in user's cart
+
+    request structure:
+    {
+        json: {
+            item_id:number
+            quantity:number
+        }
+    }
+
+    response structure:
+
+    {
+        error: boolean
+        status: number
+    }
 ## Contribution
 [Adil Hussain](https://github.com/adilcse/)
 
 ## case
-variable name = camelCase
-database column name = snake case
+
+variable name :camelCase
+
+database column name : snake case
