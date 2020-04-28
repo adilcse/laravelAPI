@@ -61,7 +61,7 @@ order only accepted if enough stock available .
     returns seller details along wth available products
     
     response structure:
-
+    ```
     {
 
         error: boolean,
@@ -95,32 +95,20 @@ order only accepted if enough stock available .
                     ),
 
         products:array(id: number,
-
                         seller_id: number,
-
                         name: string,
-
                         description: string,
-
                         image: url,
-
                         price: number,
-
                         discount: number,
-
                         stock: number,
-
                         catagory_id: number,
-
                         created_at: date,
-
                         updated_at: date,
-
                         MRP: number,
-
                         )
-                        
     }
+    ```
 ## Contribution
 [Adil Hussain](https://github.com/adilcse/)
 
