@@ -22,7 +22,7 @@ when seller accepts the order then stock of item automatically updated according
 order only accepted if enough stock available .
 
 # API endpoints
-1. getCatagory
+### 1. getCatagory
 
     params: null
 
@@ -45,7 +45,7 @@ order only accepted if enough stock available .
 
     }
 
-2. nearbySellers
+### 2. nearbySellers
 
     params:
 
@@ -93,7 +93,7 @@ order only accepted if enough stock available .
                         )
     }
     ```
-3. user/login
+### 3. user/login
 
     params:
     api_token: string
@@ -104,6 +104,7 @@ order only accepted if enough stock available .
     then returns user details along with user's cart
 
     **responst structure:**
+
     Success response:
     ```
     {
@@ -156,7 +157,7 @@ order only accepted if enough stock available .
     }
     ```
 
-4. user/register
+### 4. user/register
 
     params:
 
@@ -179,6 +180,7 @@ order only accepted if enough stock available .
     ```
 
     **response structure:**
+
     Success response:
     ```
     {
@@ -193,6 +195,116 @@ order only accepted if enough stock available .
         message:string
     }
     ```
+### 5. user/addToCart
+
+    params:
+
+        api_token:string
+    
+    request method: POST
+
+    add selected item and quantity to user's cart
+
+    **request structure:**
+    ```
+    {
+        json: {
+            item_id:number,
+            quantity:number
+        }
+    }
+    ```
+
+    **response structure:**
+
+    Success response:
+    ```
+    {
+        error: false
+        cart_id: number
+    }
+    ```
+    Failed response;
+
+    ```
+    {
+        error:true,
+        message:string
+    }
+    ```
+
+### 6. user/placeOrder
+
+    params:
+
+        api_token:string
+
+    request method:POST
+
+    places users order to the seller 
+
+    **request structure:**
+    ```
+    {
+        json: {
+                order:array(
+                    {
+                        seller_id:number,
+                        items:array(
+                            {
+                                id:number,
+                                quantity:number,
+                                price:number,
+                                confirmed:boolean
+                            }
+                        ),
+                        total:{
+                            total:number,
+                            itemCount:number,
+                            deliveryCharges:number
+                        },
+                        paymentMode:string,
+                        status:string
+                    }
+                ),
+                address:{
+                    name:string,
+                    number:number,
+                    locality:string,
+                    pin:number,
+                    address:string,
+                    city:string,
+                    state:string,
+                    landmark:string,
+                    alternate:number,
+                    lat:number,
+                    lng:number,
+                    updateAddress:boolean
+                },
+                from:string
+            }
+    }
+    ```
+
+    **response structure:**
+
+    Success response:
+    ```
+    {
+        error: false
+        status: string
+    }
+    ```
+
+    Failed response:
+    ```
+    {
+        error:true,
+        message:string
+    }
+    ```
+
+    
 
 ## Contribution
 [Adil Hussain](https://github.com/adilcse/)
