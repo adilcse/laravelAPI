@@ -17,7 +17,6 @@ $router->get('/', function () use ($router) {
 /**
  * no authentication needed for these API calls
  */
-Route::group(['middleware' => ['cors']], function () {
     Route::get('getCatagory','CatagoryController@getAll');
     Route::get('nearbySellers','SellerController@getNearby');
 /**
@@ -46,7 +45,5 @@ Route::group(['middleware' => ['cors']], function () {
         Route::get('deleteItems','ProductController@delete');
         Route::get('login','SellerController@login');
         Route::get('getOrders/{perPage}','OrderController@getUserOrder');
-
     });
-});
 

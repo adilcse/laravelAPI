@@ -34,7 +34,7 @@ return [
     |
     */
 
-    'allow_methods' => ['GET','PUT','UPDATE','DELETE','OPTION'],
+    'allow_methods' => ['GET','PUT','UPDATE','PATCH','DELETE','OPTION'],
 
     /*
     |--------------------------------------------------------------------------
@@ -71,6 +71,6 @@ return [
     |
     */
 
-    'max_age' => 0,
+    'max_age' => 8600,
 
 ];

@@ -32,17 +32,11 @@ order only accepted if enough stock available .
 
     response structure:
     {
-
         error: boolean,
-
         caragory: array(
-
-                        id:number,
-
-                        name:string
-
-                        )
-
+                    id:number,
+                    name:string
+                )
     }
 
 ### 2. nearbySellers
