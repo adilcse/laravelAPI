@@ -35,6 +35,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->app['auth']->viaRequest('api', function ($request) {
             $token=$request->input('api_token');
+            //$token=$request->header('api_token');
             if ($token) { 
                 $verifiedIdToken=null;
                 try {
@@ -42,9 +43,9 @@ class AuthServiceProvider extends ServiceProvider
                     $verifiedIdToken = $this->auth->verifyIdToken($token);
                     $uid = $verifiedIdToken->getClaim('sub');
                     if($request->is('user/*')){
-                        if($request->is('user/userRegister')){
+                        if($request->is('user/register')){
                             $reqData=json_decode($request->input('json'));
-                            if($uid==$reqData->uid)
+                            if($uid===$reqData->uid)
                                 return true;
                             else
                                 return null;
@@ -54,7 +55,7 @@ class AuthServiceProvider extends ServiceProvider
                     else if($request->is('seller/*')){
                         if($request->is('seller/register')){
                             $reqData=json_decode($request->input('json'));
-                            if($uid==$reqData->uid)
+                            if($uid===$reqData->uid)
                                 return true;
                             else
                                 return null;

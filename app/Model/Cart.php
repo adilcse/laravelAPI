@@ -35,6 +35,8 @@ class Cart extends Model
         }
         return $items;
     }
+
+
     /**
      * add item to cart
      * @param item_details
@@ -45,16 +47,18 @@ class Cart extends Model
         return DB::table('carts')
         ->insertGetId($data);
     }
+
+    
     /**
      * update cart of a user
      * @param user_id
      * @param item_id
      * @param quantity
      */
-    public static function updateCart($user_id,$item_id,$quantity)
+    public static function updateCart($userId,$itemId,$quantity)
     {
-        return Cart::where('user_id','=',$user_id)
-                ->where('item_id','=',$item_id)
+        return Cart::where('user_id','=',$userId)
+                ->where('item_id','=',$itemId)
                 ->update(['quantity'=>$quantity]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Model;
 use DB;
+use Log;
 use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
@@ -28,15 +29,17 @@ class Order extends Model
             return false;
         }
     }
+
+
     /**
      * insert order items in order item table
      */
-    public static function storeOrderItem($order_id,$item)
+    public static function storeOrderItem($orderId,$item)
     {
         try{
             DB::table('order_items')
                 ->insert([
-                    'order_id'=>$order_id,
+                    'order_id'=>$orderId,
                     'item_id'=>$item->id,
                     'quantity'=>$item->quantity,
                     'price'=>$item->price
@@ -46,11 +49,14 @@ class Order extends Model
             return false;
         }
     }
+
+
     /**
      * get all orders of a user or seller
      */
     public static function getOrderWithItems($from,$user_id,$per_page)
     {
+        //get order details with items and address
         $orders=Order::select("orders.*",
                             "order_items.order_id",
                             "order_items.item_id",
@@ -79,6 +85,8 @@ class Order extends Model
                 ->get();
         $order_ids=[];
         $my_orders=[];
+        //create item and address as object of an order
+        //remove different rows for same order of different item and place items inside an order
         foreach($orders->all() as $order){
             $order=(object)$order->original;
             $item=[ 'name'=>$order->item_name,
@@ -123,6 +131,8 @@ class Order extends Model
         }
         return $my_orders;
     }
+
+
     /**
      * reject order by seller
      * @param order id
@@ -132,6 +142,8 @@ class Order extends Model
         return Order::where('id',$id)
                 ->update(['status'=>'CANCELLED']);
     }
+
+
     /**
      * accept order by seller and reduce stock
      */
@@ -147,7 +159,7 @@ class Order extends Model
                 ->join('products','products.id','=','order_items.item_id')
                 ->get();
         foreach($items as $item){
-            if($item->confirmed==1){
+            if($item->confirmed===1){
                 $new_stock=$item->stock - $item->quantity;
                 if($new_stock>0)
                     DB::table('products')
@@ -160,11 +172,13 @@ class Order extends Model
                     ->update(['confirmed'=>0]);
             }
         }
-        Order::where('id',$id)
-        ->update(['status'=>'ACCEPTED',
-                'refund_amount'=>$refund,
-                'rejected_items'=>$reject]);
+        return Order::where('id',$id)
+                ->update(['status'=>'ACCEPTED',
+                        'refund_amount'=>$refund,
+                        'rejected_items'=>$reject]);
     }
+
+
     /**
      * get order item by order id
      * @param order_id
@@ -182,6 +196,8 @@ class Order extends Model
             return false;
         }      
     }
+
+
     /**
      * update item status
      * @param item_id
@@ -201,6 +217,8 @@ class Order extends Model
             return false;
         }         
     }
+
+
     /**
      * update order status
      * @param order_id
@@ -208,12 +226,14 @@ class Order extends Model
      */
     public static function statusUpdate($id,$status)
     {
-        if($status=='DELIVERED')
+        if($status==='DELIVERED'){
             return Order::where('id',$id)
-                            ->update(['status'=>$status,'delivered_at'=>DB::raw('now()')]);
-        else
+                        ->update(['status'=>$status,'delivered_at'=>DB::raw('now()')]);
+        }
+        else{
             return Order::where('id',$id)
-                            ->update(['status'=>$status]);
+                        ->update(['status'=>$status]);
+        }
     }
 
 }

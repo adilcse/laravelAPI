@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\User;
 use Illuminate\Database\QueryException;
-use App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 /**
  * user's controller handle user's CURD operation
@@ -18,30 +17,33 @@ class UserController extends Controller
     {
         $reqData=(array)json_decode($request->input('json'));
         try{
-            $id=User::store($reqData);
+            $st=User::store($reqData);
             if($id){
                 $status=200;
-                $content=['id'=>$id];
+                $content=['registered'=>$st,'error'=>false];
                 return response($content, $status);                              
             }
             else{
                 $status= 404;
-                $error=['error'=>'user not registered'];
+                $error=['error'=>true,'message'=>'user register failed'];
                 return response($error, $status);
         }                              
         }catch(QueryException $ex){ 
-            $error=['type'=>'user not registered'];
+            $error=['error'=>true,'message'=>'user register failed'];
             $status= 422;
             return response($ex, $status);
         }
     }
+
+
     /**
      * get user details by user id
      * @param id user id
      * @return user_details with address
      */
-    public function getByUid($id)
+    public function getByUid()
     {
+        
         $userObj = Auth::user();
         $user= ['name'=>$userObj->name,
                 'email'=>$userObj->email,
@@ -55,22 +57,25 @@ class UserController extends Controller
         try{
             $address = AddressController::getUserAddress($user['address_id']);
             $userCart = CartController::getUserCart($user['id']);
-            $content=['user'=>$user,'address'=>$address,'cart'=>$userCart];
+            $content=['error'=>false,'user'=>$user,'address'=>$address,'cart'=>$userCart];
         }
         catch(Exception $e){
-            $content=['error'=>$e];
+            $content=['error'=>true,'message'=>$e->getMessage()];
             $status=403;
         }
+        
         return response($content,$status);
     }
+
+
     /**
      * update user's address id
      */
-    public static function updateAddressid($user_id,$address_id)
+    public static function updateAddressid($userId,$addressId)
     {
         try{
-                User::where('id',$user_id)
-                ->update(['address_id'=>$address_id]);
+                User::where('id',$userId)
+                ->update(['address_id'=>$addressId]);
                 return true;
         }catch(QueryException $e){
             return null;

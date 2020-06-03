@@ -17,21 +17,19 @@ $router->get('/', function () use ($router) {
 /**
  * no authentication needed for these API calls
  */
-Route::group(['middleware' => ['cors']], function () {
     Route::get('getCatagory','CatagoryController@getAll');
     Route::get('nearbySellers','SellerController@getNearby');
 /**
  * only authenticated user can access these APIS
  */
     Route::group(['prefix' => 'user','middleware'=>'auth'], function () {
-        Route::get('login/{uid}','UserController@getByUid');
-        Route::post('userRegister','UserController@store');
+        Route::get('login','UserController@getByUid');
+        Route::post('register','UserController@store');
         Route::post('addToCart','CartController@addToCart');
         Route::post('placeOrder','OrderController@store');
         Route::get('getOrders/{per_page}','OrderController@getUserOrder');
         Route::post('updateAddress','AddressController@updateAddress');
         Route::get('removeFromCart/{id}/delete','CartController@removeFromCart');
-        Route::post('updateAddress','AddressController@updateAddress');
         Route::post('updateCart','CartController@updateCart'); 
     });
     /**
@@ -41,13 +39,11 @@ Route::group(['middleware' => ['cors']], function () {
         Route::get('getItems','ProductController@getSellerItems');
         Route::post('register','SellerController@register');
         Route::post('addItem','ProductController@store');
-        Route::post('updateItem/{id}','ProductController@update');
-        Route::post('orderAcceptReject/{id}','OrderController@acceptReject');
+        Route::post('updateItem','ProductController@update');
+        Route::post('orderAcceptReject','OrderController@acceptReject');
         Route::get('updateOrderStatus/{id}','OrderController@update');
         Route::get('deleteItems','ProductController@delete');
         Route::get('login','SellerController@login');
-        Route::get('getOrders/{per_page}','OrderController@getUserOrder');
-
+        Route::get('getOrders/{perPage}','OrderController@getUserOrder');
     });
-});
 

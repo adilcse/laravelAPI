@@ -16,10 +16,8 @@ class GenerateToken extends ServiceProvider
     $additionalClaims = [
         'email' => $email,
         'name'=>$name,
-    ];
-
+        ];
     $customToken = self::$auth->createCustomToken($uid, $additionalClaims);
-
     $customTokenString = (string) $customToken;
         return $customTokenString;
     }

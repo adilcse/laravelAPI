@@ -21,16 +21,20 @@ class AddressController extends Controller
 			return  null;
 		}
 	}
+
+
 	/**
 	 * save address to address table and return new id of the inserted address
 	 */
 	public static function saveAddress($address,$type='USER')
 	{
 		// check if latitude and longitude is valid
-		if(!is_double($address['lat']))
+		if(!is_double($address['lat'])){
 			unset($address['lat']);
-			if(!is_double($address['lng']))
+		}
+		if(!is_double($address['lng'])){
 			unset($address['lng']);
+		}
 		try{
 			return Address::store($address,$type);
 		}
@@ -38,6 +42,8 @@ class AddressController extends Controller
 			return null;
 		}
 	}
+
+
 	/**
 	 * delete an address which is not assigned to any user or order
 	 */
@@ -51,6 +57,8 @@ class AddressController extends Controller
 			return false;
 		}
 	}
+
+
 	/**
 	 * update address API. user can edit ite address by this function
 	 */
@@ -58,20 +66,23 @@ class AddressController extends Controller
 	{
 		$address=(array)json_decode($request->input('json'));
 		$user=Auth::user();
-		$old_address=$user->address_id;
+		$oldAddress=$user->addressId;
 		try{
+			//save new address in database
 			$id = AddressController::saveAddress($address);
 			if($id){
+				//update addres id in user's table
 				UserController::updateAddressid($user->id,$id);
-				$delete=AddressController::deleteAddress($old_address);
-				return response(['status'=>'success','delete'=>$delete],200);
+				//try to delete the old address if it is not linked with any order
+				$delete=AddressController::deleteAddress($oldAddress);
+				return response(['error'=>false,'delete'=>$delete],200);
 			}else{
-				return response(['error'=>'address can not updated'],200);
+				return response(['error'=>true,'message'=>'address can not updated'],200);
 			}
 		}
 		catch(QueryException $e){
-			return response(['error'=>$e],403);
+			return response(['error'=>true,'message'=>$e],403);
 		}
 	}
-
+	
 }

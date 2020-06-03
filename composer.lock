@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e565456087cf98a40655f3db840d3955",
+    "content-hash": "e36f52d0e478da19fe4efe0383260081",
     "packages": [
         {
             "name": "brick/math",
@@ -3387,6 +3387,64 @@
             "time": "2019-11-08T13:50:10+00:00"
         },
         {
+            "name": "nordsoftware/lumen-cors",
+            "version": "3.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/digiaonline/lumen-cors.git",
+                "reference": "92c0000190ed38af64300468c751d81d7a10ec9b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/digiaonline/lumen-cors/zipball/92c0000190ed38af64300468c751d81d7a10ec9b",
+                "reference": "92c0000190ed38af64300468c751d81d7a10ec9b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.4 || ^6.0 || ^7.0",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "codeception/assert-throws": "^1.0",
+                "codeception/codeception": "^2.5",
+                "codeception/specify": "^1.2",
+                "codeception/verify": "^1.2",
+                "laravel/lumen-framework": "^5.4 || ^6.0 || ^7.0",
+                "php-coveralls/php-coveralls": "^2.2",
+                "phpstan/phpstan": "^0.12.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nord\\Lumen\\Cors\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christoffer Niska",
+                    "email": "christofferniska@gmail.com"
+                }
+            ],
+            "description": "CORS module for the Lumen PHP framework.",
+            "keywords": [
+                "cors",
+                "cross-origin",
+                "headers",
+                "http",
+                "laravel",
+                "lumen",
+                "preflight",
+                "request",
+                "resource",
+                "sharing"
+            ],
+            "time": "2020-03-30T07:35:48+00:00"
+        },
+        {
             "name": "opis/closure",
             "version": "3.5.1",
             "source": {
@@ -5476,6 +5534,39 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "abellion/laravel-cors",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/abellion/laravel-cors.git",
+                "reference": "0d6c610e0d91a6de2ebf43d90d02c7706076a639"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/abellion/laravel-cors/zipball/0d6c610e0d91a6de2ebf43d90d02c7706076a639",
+                "reference": "0d6c610e0d91a6de2ebf43d90d02c7706076a639",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Abellion\\Cors\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Antoine Bellion",
+                    "email": "antoinebellion@msn.com"
+                }
+            ],
+            "description": "Adds CORS (Cross-Origin Resource Sharing) headers support in your Laravel application",
+            "time": "2016-10-10T10:23:12+00:00"
+        },
         {
             "name": "doctrine/instantiator",
             "version": "1.3.0",

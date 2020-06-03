@@ -5,7 +5,6 @@ use App\Model\Seller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
-use App\Http\Controllers;
 /**
  * handle seller API calls
  */
@@ -36,8 +35,10 @@ class SellerController extends Controller
 			$products[$key]=$value;
 		}
 		$status=200;
-		return response(['sellers'=>$content,'products'=>$products], $status);	
+		return response(['error'=>false,'sellers'=>$content,'products'=>$products], $status);	
 	}	
+
+
 	/**
 	 * register a new seller
 	 * for now new user is in ACTIVE state
@@ -60,15 +61,17 @@ class SellerController extends Controller
 				'current_status'=>'ACTIVE',
 				'address_id'=>$addressId
 			]);
-			$result=['status'=>$content];
+			$result=['error'=>false,'status'=>$content];
 			$code=200;
 		}
 		catch(Exception $e){
-			$result=['error'=>$e];
+			$result=['error'=>true,'message'=>$e];
 			$code=403;
 		}
 		return response($result,$code);
 	}
+
+
 	/**
 	 * seller login, verify id and returns selelr details
 	 */
@@ -89,9 +92,9 @@ class SellerController extends Controller
 			$status=200;
 		}
 		catch(Exception $e){
-			$content=['error'=>$e];
+			$content=['error'=>true,'message'=>$e];
 			$status=403;
 		}
-		return response($content,$status);
+		return response(['error'=>false,'data'=>$content],$status);
 	}  
 }

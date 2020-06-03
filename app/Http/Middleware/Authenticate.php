@@ -37,7 +37,7 @@ class Authenticate
     {
         //if user not authorized then return otherwise forward request
         if ($this->auth->guard($guard)->guest()) {
-            $content=['error' => 'unauthorized'];
+            $content=['error' =>true,'message'=>'unauthorized'];
             $status=401;
             return response($content, $status);
         }
