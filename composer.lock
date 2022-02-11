@@ -1126,16 +1126,16 @@
         },
         {
             "name": "google/protobuf",
-            "version": "v3.11.4",
+            "version": "v3.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/protocolbuffers/protobuf-php.git",
-                "reference": "a5001eb559dcaac0bf6d8c7edc52b3828c618185"
+                "reference": "758a0ef01c7bdf20d7ff31295d2af872547cc072"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/a5001eb559dcaac0bf6d8c7edc52b3828c618185",
-                "reference": "a5001eb559dcaac0bf6d8c7edc52b3828c618185",
+                "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/758a0ef01c7bdf20d7ff31295d2af872547cc072",
+                "reference": "758a0ef01c7bdf20d7ff31295d2af872547cc072",
                 "shasum": ""
             },
             "require": {
@@ -1163,7 +1163,11 @@
             "keywords": [
                 "proto"
             ],
-            "time": "2020-02-14T22:17:05+00:00"
+            "support": {
+                "issues": "https://github.com/protocolbuffers/protobuf-php/issues",
+                "source": "https://github.com/protocolbuffers/protobuf-php/tree/v3.15.0"
+            },
+            "time": "2021-02-18T22:06:03+00:00"
         },
         {
             "name": "grpc/grpc",
@@ -5535,39 +5539,6 @@
     ],
     "packages-dev": [
         {
-            "name": "abellion/laravel-cors",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/abellion/laravel-cors.git",
-                "reference": "0d6c610e0d91a6de2ebf43d90d02c7706076a639"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/abellion/laravel-cors/zipball/0d6c610e0d91a6de2ebf43d90d02c7706076a639",
-                "reference": "0d6c610e0d91a6de2ebf43d90d02c7706076a639",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Abellion\\Cors\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Antoine Bellion",
-                    "email": "antoinebellion@msn.com"
-                }
-            ],
-            "description": "Adds CORS (Cross-Origin Resource Sharing) headers support in your Laravel application",
-            "time": "2016-10-10T10:23:12+00:00"
-        },
-        {
             "name": "doctrine/instantiator",
             "version": "1.3.0",
             "source": {
@@ -7197,5 +7168,6 @@
     "platform": {
         "php": "^7.2.5"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.2.0"
 }
